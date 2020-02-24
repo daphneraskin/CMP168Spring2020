@@ -1,0 +1,154 @@
+import java.util.Scanner;
+public class Array {
+	public static int sum(int[] arr) {
+		int sum = 0;
+		for (int i = 0; i<arr.length; i++) {
+			sum += arr[i];
+		}
+		return sum;
+	}
+	public static int sum(int[] arr, int firstIndex, int lastIndex) {
+		int sum = 0;
+		if (!(firstIndex<lastIndex) || !(firstIndex>=0) ||!(firstIndex<arr.length-1) || !(lastIndex<=arr.length-1)) {
+			sum = -666;
+		}
+		else {
+			for (int i = firstIndex; i<= lastIndex; i++) {
+				sum += arr[i];
+			}
+		}
+		return sum;
+	}
+	public static double average(int[] arr) {
+		double sum = sum(arr);
+		double avg = sum / (arr.length);
+		return avg;
+	}
+	public static double average(int[] arr, int firstIndex, int lastIndex) {
+		double sum = sum(arr, firstIndex, lastIndex);
+		double average;
+		if (!(firstIndex<lastIndex) || !(firstIndex>=0) ||!(firstIndex<arr.length-1) || !(lastIndex<=arr.length-1)) {
+			average = -666.0;
+		}
+		else {
+			average = sum / (lastIndex-firstIndex+1);
+		}
+		return average;
+	}
+	public static int maxValue(int[] arr) {
+		int max = arr[0];
+		for (int i = 1; i<arr.length; i++) {
+			if (arr[i]> max) {
+				max = arr[i];
+			}
+		}
+		return max;
+	}
+	public static int maxValue(int[] arr, int firstIndex, int lastIndex) {
+		int max;
+		if (!(firstIndex<lastIndex) || !(firstIndex>=0) ||!(firstIndex<arr.length-1) || !(lastIndex<=arr.length-1)) {
+			max = -666;
+		}
+		else {
+			max = arr[firstIndex];
+			int start = firstIndex + 1;
+			for (int i = start; i<= lastIndex; i++) {
+					if (arr[i]>max) {
+						max = arr[i];
+					}
+			}
+		}
+		return max;
+	}
+	public static int indexOfFirstMaxValue(int[] arr) {
+		int max = maxValue(arr);
+		int ind = 0;
+		for (int i = 0; i<arr.length; i++) {
+			if (arr[i] == max) {
+				ind = i;
+				break;
+			}
+		}
+		return ind;
+	}
+	public static int indexOfFirstMaxValue(int[] arr, int firstIndex, int lastIndex) {
+		int max = maxValue(arr, firstIndex, lastIndex);
+		int ind = 0;
+		if (!(firstIndex<lastIndex) || (firstIndex<0) || !(firstIndex<arr.length-1) || !(lastIndex<=arr.length-1)){
+				ind = -1;
+		}
+		else {
+			for (int i = firstIndex; i<= lastIndex; i++) {
+				if (arr[i] == max) {
+					ind = i;
+					break;
+				}
+			}
+		}
+		return ind;
+	}
+	public static int numberOfBelowAverageElements(int[] arr) {
+		double avg = average(arr);
+		int numBelow = 0; 
+		for (int i = 0; i<arr.length; i++) {
+			if (arr[i]<avg) {
+				numBelow += 1;
+			}
+		}
+		return numBelow;
+	}
+	public static int numberOfBelowAverageElements(int[] arr, int firstIndex, int lastIndex) {
+		double avg = average(arr, firstIndex, lastIndex);
+		int numBelow = 0;
+		if (!(firstIndex<lastIndex) || (firstIndex<0) || !(firstIndex<arr.length-1) || !(lastIndex<=arr.length-1)) {
+			numBelow = -666;
+		}
+		else {
+			for (int i = firstIndex; i<= lastIndex; i++) {
+				if (arr[i]<avg) {
+					numBelow += 1;
+				}
+			}
+		}
+		return numBelow;
+	}
+	public static void rotateElements(int[] arr) {
+		int last = arr[arr.length-1];
+		for (int i = arr.length-1; i>0; i--) {
+			arr[i] = arr[i-1];
+		}
+		arr[0] = last;
+	}
+	public static void rotateElements(int[] arr, int rotationCount) {
+		if (rotationCount> arr.length) {
+			rotationCount %= arr.length;
+		}
+		for (int i = 0; i<rotationCount; i++) {
+			rotateElements(arr);
+		}
+		/*//copy arr to arr2
+		int arr2[] = new int[arr.length];
+		for (int i = 0; i<arr.length; i++) {
+			arr2[i] = arr[i];
+		}
+		//for elements starting at index rotationCount until last index, rotation will be complete
+		for (int i = rotationCount; i<arr.length; i++) {
+			arr[i] = arr[i-rotationCount];
+		}
+		// fill first elements before rotationCount index with rotated elements
+		for (int i = 0; i<rotationCount; i++) {
+			arr[i] = arr2[arr.length-rotationCount+i];
+		}*/
+	}
+	public static void reverseArray(int[] arr) {
+		int first = 0;
+		int end = arr.length-1;
+		while (first<end) {
+			int hold = arr[first];
+			arr[first] = arr[end];
+			arr[end] = hold;
+			first++;
+			end--;
+		}
+	}
+}
