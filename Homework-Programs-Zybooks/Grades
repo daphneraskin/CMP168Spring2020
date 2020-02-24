@@ -1,0 +1,74 @@
+import java.util.Scanner;
+public class Grades {
+	public static void main(String[] args) {
+		Scanner scnr = new Scanner(System.in);
+		
+		int counterA = 0;
+		int counterAMinus = 0;
+		int counterBPlus = 0;
+		int counterB = 0;
+		int counterBMinus = 0;
+		int counterCPlus = 0;
+		int counterC = 0;
+		int counterCMinus = 0;
+		int counterD = 0;
+		int counterF = 0;
+		int grade;
+		int numGrades = 0;
+		
+		System.out.println("Enter a grade: ");
+		grade = scnr.nextInt();
+		
+		while (grade >= 0 && grade <=100) {
+			numGrades++;
+			
+			if (grade<60) {
+				counterF++;
+			}
+			else if (grade<70) {
+				counterD++;
+			}
+			else if (grade<73) {
+				counterCMinus++;
+			}
+			else if (grade<77) {
+				counterC++;
+			}
+			else if (grade<80) {
+				counterCPlus++;
+			}
+			else if (grade<83) {
+				counterBMinus++;
+			}
+			else if (grade<87) {
+				counterB++;
+			}
+			else if (grade<90) {
+				counterBPlus++;
+			}
+			else if (grade<93) {
+				counterAMinus++;
+			}
+			else {
+				counterA++;
+			}
+		System.out.println("Enter a grade: ");
+		grade = scnr.nextInt();
+		}
+		
+		System.out.println("Total number of grades = " + numGrades);
+		System.out.println("Number of A's  = " + counterA);
+		System.out.println("Number of A-'s = " + counterAMinus);
+		System.out.println("Number of B+'s = " + counterBPlus);
+		System.out.println("Number of B's  = " + counterB);
+		System.out.println("Number of B-'s = " + counterBMinus);
+		System.out.println("Number of C+'s = " + counterCPlus);
+		System.out.println("Number of C's  = " + counterC);
+		System.out.println("Number of C-'s = " + counterCMinus);
+		System.out.println("Number of D's  = " + counterD);
+		System.out.println("Number of F's  = " + counterF);
+		
+		
+		
+	}
+}
