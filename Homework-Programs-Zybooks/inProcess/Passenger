@@ -1,10 +1,10 @@
 
 public class Passenger {
-	String name;
-	int birthYear;
-	double weight;
-	char gender;
-	int numCarryOn;
+	private String name;
+	private int birthYear;
+	private double weight;
+	private char gender;
+	private int numCarryOn;
 	
 	public Passenger(){
 		name = "";
@@ -15,20 +15,54 @@ public class Passenger {
 	public Passenger(java.lang.String name, int birthYear, double weight, char gender, int numCarryOn) {
 		this.name = name;
 		this.birthYear = birthYear;
-		this.weight = weight;
-		this.gender = gender;
+		if (weight >=0) {
+			this.weight = weight;
+		}
+		else {
+			this.weight = -1;
+		}
+		
+		if (gender == 'f' || gender == 'm' || gender == 'u') {
+			this.gender = gender;
+		}
+		else {
+			this.gender = 'u';
+		}
+		
+		if (numCarryOn < 0) {
+			this.numCarryOn = 0;
+		}
+		else if (numCarryOn > 2) {
+			this.numCarryOn = 2;
+		}
+		else {
+			this.numCarryOn = numCarryOn;
+		}
+		
 	}
 	
-	public void calculateAge(int currentYear) {
-		int age = currentYear - birthYear;
+	public int calculateAge(int currentYear) {
+		if (currentYear< birthYear) {
+			return -1;
+		}
+		else{
+			int age = currentYear - birthYear;
+			return age;
+		}
 	}
 	
 	public void gainWeight() {
 		weight += 1;
 	}
 	
-	public void gainWeight(double weight) {
-		this.weight += weight;
+	public void gainWeight(double gained) {
+		
+		if (gained < (weight *-1.0)) {
+			weight = 0.0;
+		}
+		else {
+			weight += gained;
+		}
 	}
 	
 	public int getBirthYear() {
@@ -44,7 +78,15 @@ public class Passenger {
 	}
 	
 	public void setNumCarryOn(int numCarryOn) {
-		this.numCarryOn = numCarryOn;
+		if (numCarryOn<0) {
+			this.numCarryOn = 0;
+		}
+		if (numCarryOn> 2) {
+			this.numCarryOn = 2;
+		}
+		else {
+			this.numCarryOn = numCarryOn;
+		}
 	}
 	
 	public int getNumCarryOn() {
@@ -79,10 +121,15 @@ public class Passenger {
 	
 	public void loseWeight() {
 		weight -= 1;
+		if (weight <0.0) {
+			weight = 0.0;
+		}
 	}
 	
 	public void loseWeight(double weight) {
-		weight -= weight;
+		if (this.weight - weight>=0) {
+			this.weight -= weight;
+		}
 	}
 	
 	public void printDetails() {
@@ -94,7 +141,12 @@ public class Passenger {
 	}
 	
 	public void setGender(char gender) {
-		this.gender = gender;
+		if (gender == 'm' || gender == 'f' || gender == 'u') {
+			this.gender = gender;
+		}
+		else {
+			this.gender = 'u';
+		}
 	}
 	
 	public void setName(java.lang.String name) {
@@ -102,7 +154,12 @@ public class Passenger {
 	}
 	
 	public void setWeight(double weight) {
-		this.weight = weight;
+		if (weight>=0) {
+			this.weight = weight;
+		}
+		else {
+			this.weight = -1.0;
+		}
 	}
 	
 	
