@@ -1,4 +1,6 @@
 
+
+
 public class Passenger {
 	private String name;
 	private int birthYear;
@@ -133,7 +135,7 @@ public class Passenger {
 	}
 	
 	public void printDetails() {
-		System.out.printf(name + birthYear + weight + gender);
+		System.out.printf("Name: %20s | Year of Birth: %4d | Weight: %10.2f | Gender %c\n", name, birthYear, weight, gender);
 	}
 	
 	public void setBirthYear(int birthYear) {
