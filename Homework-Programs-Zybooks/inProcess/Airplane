@@ -1,55 +1,142 @@
 
 
 public class Airplane {
-	int[] Passengers;
-	String AirplaneName;
-	int numPassengers;
+	private Passenger[] passengers;
+	private String airplaneName;
+	private int numPassengers;
 	
 	public Airplane() {
-		int[] Passengers = new int[100];
-		AirplaneName = "";
+		airplaneName = "";
 		numPassengers = 0;
+		Passenger[] passenger = new Passenger[100];
 	}
 	public Airplane(int maxPassengers) {
-		int []Passengers = new int[maxPassengers];  
+		if (maxPassengers<0) {
+			maxPassengers = 0;
+		}
+		Passenger[] passenger = new Passenger[maxPassengers];
 	}
-	public Airplane(java.lang.String AirplaneName) {
-		
+	public Airplane(String airplaneName) {
+		this.airplaneName = airplaneName;
 	}
-	public Airplane(java.lang.String AirplaneName, int maxPassengers) {
-		
+	public Airplane(String airplaneName, int maxPassengers) {
+		this.airplaneName = airplaneName;
+		if (maxPassengers<0) {
+			maxPassengers = 0;
+		}
+		Passenger[] passenger = new Passenger[maxPassengers];
 	}
-	public static void addPassenger(Passenger a) {
-		
+	public void addPassenger(Passenger a) {
+		if (numPassengers < passengers.length) {
+			passengers[numPassengers + 1] = a;
+			numPassengers++;
+		}
+		else {
+			int timesTwo = 2 * passengers.length;
+			Passenger[] passengers = new Passenger[timesTwo];
+			passengers[numPassengers + 1]=a;
+			numPassengers++;
+		}
 	}
+	
+	public Passenger getFirstPassenger() {
+		if (passengers.length >= 0) {
+			return passengers[0];
+		}
+		else {
+			return null;
+		}
+	}
+	
 	public String getAirplaneName() {
-		return AirplaneName;
+		return airplaneName;
 	}
 	
-	public void getAverageWeightOfAllPassengers() {
-	
+	public double getTotalWeightOfAllPassengers() {
+		double total = 0.0;
+		for (int i = 0; i < passengers.length; i++) {
+			Passenger a = passengers[i];
+			total += a.getWeight();
+		}
+		return total;
 	}
 	
-	public void getFirstPassenger() {
+	public double getAverageWeightOfAllPassengers() {
+		double average = getTotalWeightOfAllPassengers() / passengers.length;
+		return average;
+	}
+	
+	public Passenger getPassenger(int index) {
+		if (index > 0 && index < passengers.length && passengers[index] != null) {
+			return passengers[index];
+		}
+		else {
+			return null;
+		}
+	}
+	
+	/*public Passenger getPassengers() {
+		for (int i = 0; i<passengers.length; i++) {
+			return getPassenger(i);
+		}
 		
-	}
+	}*/
 	
-	public void getLastPassenger() {
-		
+	public Passenger getLastPassenger() {
+		return passengers[passengers.length -1];
 	}
 	
 	public int getNumberOfPassengersAboveWeight(double weight) {
-		return 0;
+		int count = 0;
+		for (int i = 0; i<passengers.length; i++) {
+			if (passengers[i].getWeight() > weight) {
+				count += 1;
+			}
+		}
+		return count;
 	}
 	
 	public int getNumberOfPassengersBelowWeight(double weight) {
-		return 0;
+		int count = 0;
+		for (int i = 0; i< passengers.length; i++) {
+			if (passengers[i].getWeight() < weight) {
+				count += 1;
+			}
+		}
+		return count;
 	}
 	
 	public int getNumPassengers() {
-		return 0;
+		return numPassengers;
 	}
 	
-	public 
+	public void setAirplaneName(java.lang.String name) {
+		airplaneName = name;
+	}
 	
+	public void removePassenger(int index) {
+		if (index>0 && index< passengers.length) {
+			for (int i = index; i<passengers.length; i++) {
+				Passenger hold = passengers[index + 1];
+				passengers[index] = hold;
+			}
+		}
+	}
+	
+	public void removeAllPassengers() {
+		for (int i = 0; i<passengers.length; i++) {
+			removePassenger(i);
+		}
+		numPassengers = 0;
+	}
+	
+	public void increaseWeightOfAllPassengers(double weight) {
+		for (int i = 0; i<passengers.length; i++) {
+			passengers[i].setWeight(weight);
+		}
+	}
+	
+	public void printAllDetails() {
+		System.out.printf("AirplaneName: %20s | Number of Passengers: %4d | Airplane Size: %4d\n", airplaneName, numPassengers, passengers.length);
+	}
 }
