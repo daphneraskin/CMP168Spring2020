@@ -1,4 +1,3 @@
-
 public class Airplane {
 	private Passenger[] passengers;
 	private String airplaneName;
@@ -10,26 +9,38 @@ public class Airplane {
 		passengers = new Passenger[100];
 	}
 	public Airplane(int maxPassengers) {
-		if (maxPassengers<0) {
+		if (numPassengers < 0) {
+			this.passengers = new Passenger[0];
 			maxPassengers = 0;
 		}
-		passengers = new Passenger[maxPassengers];
+		else {
+			this.passengers = new Passenger[maxPassengers];
+		}
 		airplaneName = "";
-		numPassengers = 0;
+		this.numPassengers = 0;
+		passengers = new Passenger[maxPassengers];
 	}
+	
 	public Airplane(String airplaneName) {
 		this.airplaneName = airplaneName;
 		numPassengers = 0;
 		passengers = new Passenger[100];
 	}
+	
 	public Airplane(String airplaneName, int maxPassengers) {
 		this.airplaneName = airplaneName;
-		if (maxPassengers<0) {
+		if (numPassengers<0) {
+			this.passengers = new Passenger[0];
 			maxPassengers = 0;
 		}
+		else {
+			this.passengers = new Passenger[maxPassengers];
+		}
+		this.airplaneName = airplaneName;
+		this.numPassengers = 0;
 		passengers = new Passenger[maxPassengers];
-		numPassengers = 0;
 	}
+	
 	public void addPassenger(Passenger a) {
 		if (numPassengers + 1 <= passengers.length){
 			passengers[numPassengers] = a;
@@ -56,20 +67,28 @@ public class Airplane {
 	
 	public double getTotalWeightOfAllPassengers() {
 		double total = 0.0;
+		double holdWeight =0.0;
 		for (int i = 0; i < numPassengers; i++) {
 			Passenger a = passengers[i];
-			total += a.getWeight();
+			holdWeight = a.getWeight();
+			total += holdWeight;
 		}
 		return total;
 	}
 	
 	public double getAverageWeightOfAllPassengers() {
-		double average = getTotalWeightOfAllPassengers() / passengers.length;
-		return average;
+		if (numPassengers > 0) {
+			double average = getTotalWeightOfAllPassengers();
+			average /= numPassengers;
+			return average;
+		}
+		else {
+			return 0;
+		}
 	}
 	
 	public Passenger getPassenger(int index) {
-		if (index > 0 && index < passengers.length && passengers[index] != null) {
+		if (index > 0 && index < numPassengers && passengers[index] != null) {
 			return passengers[index];
 		}
 		else {
@@ -88,9 +107,13 @@ public class Airplane {
 	
 	public int getNumberOfPassengersAboveWeight(double weight) {
 		int count = 0;
-		for (int i = 0; i<passengers.length; i++) {
-			if (passengers[i].getWeight() > weight) {
-				count += 1;
+		if (weight > 0.0) {
+			for (int i = 0; i<numPassengers; i++) {
+				Passenger a = passengers[i];
+				double test = a.getWeight();
+				if (test > weight) {
+					count += 1;
+				}
 			}
 		}
 		return count;
@@ -98,9 +121,11 @@ public class Airplane {
 	
 	public int getNumberOfPassengersBelowWeight(double weight) {
 		int count = 0;
-		for (int i = 0; i< passengers.length; i++) {
-			if (passengers[i].getWeight() < weight) {
-				count += 1;
+		if (weight > 0.0) {
+			for (int i = 0; i< numPassengers; i++) {
+				if (passengers[i].getWeight() < weight) {
+					count += 1;
+				}
 			}
 		}
 		return count;
@@ -116,23 +141,30 @@ public class Airplane {
 	
 	public Passenger removePassenger(int index) {
 	
-		if (index>= 0 && index < numPassengers) {
-			
-			return null;
-		}
-		else{
-			for (int i = index; i<numPassengers - 1; i++) {
-				passengers[i] = passengers[i + 1];
+		if (index >= 0 && index < numPassengers) {
+			Passenger[] hold = new Passenger[passengers.length];
+			Passenger a = passengers[index];
+			int j = 0;
+			for (int i = 0; i< numPassengers; i++) {
+				if (i != index) {
+					hold[j] = passengers[i];
+				}
+				j++;
 			}
-			numPassengers--;
-			return passengers[index];
+			hold[passengers.length - 1] = null;
+			passengers = hold;
+			numPassengers -= 1;
+			return a;
+		}	
+		else{
+			return null;
 		}
 		
 		
 	}
 	
 	public void removeAllPassengers() {
-		for (int i = 0; i<numPassengers; i++) {
+		for (int i = 0; i<numPassengers-1; i++) {
 			passengers[i] = null;
 		}
 		numPassengers = 0;
@@ -140,9 +172,11 @@ public class Airplane {
 	
 	public void increaseWeightOfAllPassengers(){
 		for (int i = 0; i<numPassengers; i++){
-			passengers[i].gainWeight();
+			Passenger a = passengers[i];
+			a.gainWeight();
 		}
 	}
+	
 	public void increaseWeightOfAllPassengers(double weight) {
 		for (int i = 0; i<numPassengers; i++) {
 			Passenger a = passengers[i];
@@ -156,30 +190,23 @@ public class Airplane {
 			passengers[i].printDetails();
 		}
 	}
-
 	
 	public static void main(String[] args){
-		Passenger emma = new Passenger("Emma", 2020, 0.0, 'f', 1);
-		Passenger dylan = new Passenger("Dylan", 2020, 0.0, 'f', 2);
-		Passenger carry = new Passenger("Carry", 2020, 1.2, 'f', 3);
-
-		Airplane a = new Airplane();
+		Passenger emma = new Passenger("Emma", 2020, -1, 'f', 1);
+		Passenger dylan = new Passenger("Dylan", 2020, .90999, 'f', 2);
+		Passenger carry = new Passenger("Carry", 2020, 1000, 'f', 3);
+		
+		Airplane a  = new Airplane();
+		emma.gainWeight();
 		a.addPassenger(emma);
 		a.addPassenger(dylan);
 		a.addPassenger(carry);
-		/*a.increaseWeightOfAllPassengers(10);
-		a.printAllDetails();
-		System.out.print(a.getLastPassenger());
-		for (int i = 0; i<a.passengers.length; i++){
-			a.printAllDetails();
-			}
-			*/
-		a.increaseWeightOfAllPassengers(10);
-		System.out.println(a.getTotalWeightOfAllPassengers());
-		a.increaseWeightOfAllPassengers(20.5);
-		System.out.println(a.getTotalWeightOfAllPassengers());
-		a.removeAllPassengers();
-		a.printAllDetails();
+		System.out.println("Total Weight: " + a.getTotalWeightOfAllPassengers());
+		//a.removePassenger(3);
+		//a.printAllDetails();
+		System.out.println("Average Weight: " + a.getAverageWeightOfAllPassengers());
+		System.out.println("Num above 12: " + a.getNumberOfPassengersAboveWeight(999));
+		System.out.println("Num below 0: " + a.getNumberOfPassengersBelowWeight(1));
 	}
 }
-
+	
