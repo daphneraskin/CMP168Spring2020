@@ -1,6 +1,5 @@
 
 
-
 public class Passenger {
 	private String name;
 	private int birthYear;
@@ -13,7 +12,9 @@ public class Passenger {
 		birthYear = 1900;
 		weight = 0.0;
 		gender = 'u';
+		numCarryOn = 0;
 	}
+	
 	public Passenger(java.lang.String name, int birthYear, double weight, char gender, int numCarryOn) {
 		this.name = name;
 		this.birthYear = birthYear;
@@ -59,7 +60,7 @@ public class Passenger {
 	
 	public void gainWeight(double gained) {
 		
-		if (gained < (weight *-1.0)) {
+		if (weight + gained < 0) {
 			weight = 0.0;
 		}
 		else {
