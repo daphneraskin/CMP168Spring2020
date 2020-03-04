@@ -1,5 +1,4 @@
 
-
 public class Passenger {
 	private String name;
 	private int birthYear;
@@ -59,11 +58,7 @@ public class Passenger {
 	}
 	
 	public void gainWeight(double gained) {
-		
-		if (weight + gained < 0) {
-			weight = 0.0;
-		}
-		else {
+		if (weight + gained >= 0) {
 			weight += gained;
 		}
 	}
@@ -123,20 +118,21 @@ public class Passenger {
 	}
 	
 	public void loseWeight() {
-		weight -= 1;
-		if (weight <0.0) {
-			weight = 0.0;
+		if (weight >= 1) {
+			weight--;
 		}
 	}
 	
 	public void loseWeight(double weight) {
-		if (this.weight - weight>=0) {
-			this.weight -= weight;
+		this.weight -= weight;
+		if (this.weight <0) {
+			this.weight = 0;
 		}
 	}
 	
 	public void printDetails() {
-		System.out.printf("Name: %20s | Year of Birth: %4d | Weight: %10.2f | Gender %c\n", name, birthYear, weight, gender);
+		System.out.printf("Name: %20s | Year of Birth: %4d | Weight: %10.2f | Gender: %c | NumCarryOn: ", name, birthYear, weight, gender, numCarryOn);
+		System.out.println(numCarryOn);
 	}
 	
 	public void setBirthYear(int birthYear) {
