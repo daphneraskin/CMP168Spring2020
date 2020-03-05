@@ -1,3 +1,4 @@
+//Works with Passenger
 public class Airplane {
 	private Passenger[] passengers;
 	private String airplaneName;
