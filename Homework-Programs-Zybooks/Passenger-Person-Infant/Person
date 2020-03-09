@@ -1,0 +1,17 @@
+
+public class Person extends Passenger{
+	private int numOffspring;
+	
+	public Person() {
+		numOffspring = 0;
+	}
+	
+	public Person(int a) {
+		numOffspring = a;
+	}
+	
+	public Person(String name, int birthYear, double weight, double height, char gender, int numCarryOn, int numOffspring) {
+		this.numOffspring = numOffspring;
+	}
+	
+}
