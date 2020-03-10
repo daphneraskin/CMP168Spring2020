@@ -20,7 +20,7 @@ public class Passenger {
 			this.height = height;
 		}
 		else {
-			this.height = 0.0;
+			this.height = -1;
 		}
 		this.name = name;
 		this.birthYear = birthYear;
@@ -138,8 +138,8 @@ public class Passenger {
 	}
 	
 	public void printDetails() {
-		System.out.printf("Name: %20s | Year of Birth: %4d | Weight: %10.2f | Height: %10.2f | Gender: %c | NumCarryOn: ", name, birthYear, weight, height, gender, numCarryOn);
-		System.out.println(numCarryOn);
+		System.out.printf("Name: %20s | Year of Birth: %4d | Weight: %10.2f | Height: %10.2f | Gender: %c | NumCarryOn: %\n", name, birthYear, weight, height, gender, numCarryOn);
+		
 	}
 	
 	public void setBirthYear(int birthYear) {
@@ -173,7 +173,7 @@ public class Passenger {
 			this.height = height;
 		}
 		else {
-			this.height = 0.0;
+			this.height = -1;
 		}
 	}
 	
@@ -191,7 +191,7 @@ public class Passenger {
 	
 	@Override
 	public String toString() {
-		String d = String.format("Name: %20s | Year of Birth: %4d | Weight: %10.2f | Height: %10.2f | Gender: %c | NumCarryOn: %2d\n ", name, birthYear, weight, height, gender, numCarryOn);
+		String d = String.format("Name: %20s | Year of Birth: %4d | Weight: %10.2f | Height: %10.2f | Gender: %c | NumCarryOn: %2d", name, birthYear, weight, height, gender, numCarryOn);
 		return d;
 	}
 	
