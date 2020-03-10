@@ -1,0 +1,81 @@
+
+public class Infant extends Person{
+	
+	private InfantToy[] toys;
+	private int numInfantToys;
+	
+	public Infant() {
+		numInfantToys = 0; 
+		toys = new InfantToy[10];
+	}
+	
+	public Infant(String name, int birthYear, double weight, double height, char gender, int numCarryOn) {
+		super(name, birthYear, weight, height, gender, numCarryOn, 0);
+	}
+	
+	public void addInfantToy(String name, int rating) {
+		InfantToy addition = new InfantToy(name, rating);
+		toys[numInfantToys] = addition;
+	}
+	
+	public String getInfantToyAsString(int count) {
+		String a = toys[count].toString();
+		return a;
+	}
+	
+	public int getNumInfantToys() {
+		return numInfantToys;
+	}
+	
+	public int getHighestInfantToyRating() {
+		if (toys.length <= 0) {
+			return 0;
+		}
+		else {
+			int highest = 0;
+			for (InfantToy a : toys) {
+				int curr = a.getInfantToyRating();
+				if (curr > highest) {
+					highest = curr;
+				}
+			}
+			return highest;
+		}
+	}
+	
+	public class InfantToy{
+		private String infantToyName;
+		private int infantToyRating;
+		
+		public String getInfantToyName() {
+			return infantToyName;
+		}
+		
+		public int getInfantToyRating() {
+			return infantToyRating;
+		}
+		
+		public InfantToy(String name, int rating) {
+			infantToyName = name;
+			infantToyRating = rating;
+		}
+		
+		@Override
+		public String toString() {
+			// INSERT IMPLEMENTATION
+			return "";
+		}
+	}
+	
+	@Override 
+	public void printDetails() {
+		super.printDetails();
+		
+	}
+	
+	@Override 
+	public String toString() {
+		//Fill in IMPLEMENTATION
+		return "";
+	}
+}
