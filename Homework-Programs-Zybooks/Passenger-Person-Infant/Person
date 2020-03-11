@@ -43,7 +43,8 @@ public class Person extends Passenger{
 	@Override
 	public String toString() {
 		String a = super.toString();
-		return a + String.format("Person: Number of Offspring: %4d\n", numOffspring);
+		String b = String.format("Person: Number of Offspring: %4d\n", numOffspring);
+		return a + b;
 	}
 	
 	@Override
