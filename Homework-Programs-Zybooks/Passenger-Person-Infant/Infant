@@ -24,9 +24,15 @@ public class Infant extends Person{
 		}
 	}
 	
-	public String getInfantToyAsString(int count) {
-		String a = toys[count].toString();
-		return a;
+	public String getInfantToyAsString(int index) {
+		if (index >=0 && index<numInfantToys) {
+			String a = toys[index].toString();
+			return a;
+		}
+		else {
+			return "invalid index " + index;
+		}
+		
 	}
 	
 	public int getNumInfantToys() {
@@ -34,18 +40,34 @@ public class Infant extends Person{
 	}
 	
 	public int getHighestInfantToyRating() {
-		if (toys.length <= 0) {
-			return 0;
+		int highest = 0;
+		for (int i = 0; i<numInfantToys; i++) {
+			InfantToy a = toys[i];
+			int curr = a.infantToyRating;
+			if (curr > highest) {
+				highest = curr;
+			}
+		}
+			return highest;
+	}
+	
+	public String getInfantToyName(int index) {
+		if (index >= 0 && index < numInfantToys) {
+			InfantToy a = toys[index];
+			return a.infantToyName;
 		}
 		else {
-			int highest = 0;
-			for (InfantToy a : toys) {
-				int curr = a.getInfantToyRating();
-				if (curr > highest) {
-					highest = curr;
-				}
-			}
-			return highest;
+			return "invalid index " + index;
+		}
+	}
+	
+	public int getInfantToyRating(int index) {
+		if (index >= 0 && index <numInfantToys) {
+			InfantToy a = toys[index];
+			return a.infantToyRating;
+		}
+		else {
+			return -1;
 		}
 	}
 	
@@ -53,13 +75,6 @@ public class Infant extends Person{
 		private String infantToyName;
 		private int infantToyRating;
 		
-		public String getInfantToyName() {
-			return infantToyName;
-		}
-		
-		public int getInfantToyRating() {
-			return infantToyRating;
-		}
 		
 		public InfantToy(String name, int rating) {
 			infantToyName = name;
@@ -91,15 +106,4 @@ public class Infant extends Person{
 		}
 		return a;
 	}
-	
-	public static void main(String[] args) {
-		Infant amy = new Infant();
-		amy.addInfantToy("Ball", 4);
-		amy.addInfantToy("Jump Rope", 7);
-		String a = amy.getInfantToyAsString(0);
-		System.out.print(a);
-		amy.printDetails();
-	}
-
-	
 }
