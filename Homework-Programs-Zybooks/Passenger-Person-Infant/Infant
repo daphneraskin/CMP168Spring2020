@@ -1,21 +1,28 @@
-
 public class Infant extends Person{
 	
-	private InfantToy[] toys;
+	private final InfantToy[] toys = new InfantToy[10];
 	private int numInfantToys;
 	
 	public Infant() {
 		numInfantToys = 0; 
-		toys = new InfantToy[10];
 	}
 	
 	public Infant(String name, int birthYear, double weight, double height, char gender, int numCarryOn) {
 		super(name, birthYear, weight, height, gender, numCarryOn, 0);
+		numInfantToys = 0;
 	}
 	
 	public void addInfantToy(String name, int rating) {
 		InfantToy addition = new InfantToy(name, rating);
-		toys[numInfantToys] = addition;
+		if (numInfantToys < toys.length) {
+			toys[numInfantToys] = addition;
+		}
+		else if (toys.length == 10) {
+			for (int i = 1; i<10; i++) {
+				toys[i] = toys[i-1];
+			}
+			toys[9] = addition;
+		}
 		numInfantToys++;
 	}
 	
@@ -71,19 +78,30 @@ public class Infant extends Person{
 	@Override 
 	public void printDetails() {
 		super.printDetails();
-		
+		System.out.printf("Infant: Number of Toys: %4d | InfantToys: \n", numInfantToys);
+		for (InfantToy a : toys) {
+			System.out.println(a.toString());
+		}
 	}
 	
 	@Override
 	public String toString() {
 		String a = super.toString();
-		String b = String.format("Infant: Number of Toys: %4d | Infant Toys: \n", numInfantToys, toys);
-		return a + b;
+		for (InfantToy b : toys) {
+			String c = b.toString();
+			a.concat(" " + c);
+		}
+		return a;
 	}
 	
 	public static void main(String[] args) {
 		Infant amy = new Infant();
 		amy.addInfantToy("Ball", 4);
-		System.out.print(amy.toys.toString());
+		amy.addInfantToy("Jump Rope", 7);
+		String a = amy.getInfantToyAsString(0);
+		System.out.print(a);
+		amy.printDetails();
 	}
+
+	
 }
