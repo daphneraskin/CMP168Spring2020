@@ -10,20 +10,18 @@ public class Infant extends Person{
 	public Infant(String name, int birthYear, double weight, double height, char gender, int numCarryOn) {
 		super(name, birthYear, weight, height, gender, numCarryOn, 0);
 		numInfantToys = 0;
+		
 	}
 	
 	public void addInfantToy(String name, int rating) {
 		InfantToy addition = new InfantToy(name, rating);
-		if (numInfantToys < toys.length) {
+		if (numInfantToys < 10) {
 			toys[numInfantToys] = addition;
+			numInfantToys++;
 		}
-		else if (toys.length == 10) {
-			for (int i = 1; i<10; i++) {
-				toys[i] = toys[i-1];
-			}
-			toys[9] = addition;
+		else {
+			System.out.print("toys has reached capacity of 10");
 		}
-		numInfantToys++;
 	}
 	
 	public String getInfantToyAsString(int count) {
