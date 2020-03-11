@@ -16,6 +16,7 @@ public class Infant extends Person{
 	public void addInfantToy(String name, int rating) {
 		InfantToy addition = new InfantToy(name, rating);
 		toys[numInfantToys] = addition;
+		numInfantToys++;
 	}
 	
 	public String getInfantToyAsString(int count) {
@@ -62,8 +63,8 @@ public class Infant extends Person{
 		
 		@Override
 		public String toString() {
-			// INSERT IMPLEMENTATION
-			return "";
+			String a = String.format("InfantToy: Toy Name: %20s | Rating %4d\n", infantToyName, infantToyRating);
+			return a;
 		}
 	}
 	
@@ -73,9 +74,16 @@ public class Infant extends Person{
 		
 	}
 	
-	@Override 
+	@Override
 	public String toString() {
-		//Fill in IMPLEMENTATION
-		return "";
+		String a = super.toString();
+		String b = String.format("Infant: Number of Toys: %4d | Infant Toys: \n", numInfantToys, toys);
+		return a + b;
+	}
+	
+	public static void main(String[] args) {
+		Infant amy = new Infant();
+		amy.addInfantToy("Ball", 4);
+		System.out.print(amy.toys.toString());
 	}
 }
