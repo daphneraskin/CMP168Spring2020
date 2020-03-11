@@ -106,4 +106,5 @@ public class Infant extends Person{
 		}
 		return a;
 	}
+	
 }
