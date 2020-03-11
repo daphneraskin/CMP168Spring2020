@@ -191,7 +191,7 @@ public class Passenger {
 	
 	@Override
 	public String toString() {
-		String d = String.format("Name: %20s | Year of Birth: %4d | Weight: %10.2f | Height: %10.2f | Gender: %c | NumCarryOn: %2d", name, birthYear, weight, height, gender, numCarryOn);
+		String d = String.format("Name: %20s | Year of Birth: %4d | Weight: %10.2f | Height: %10.2f | Gender: %c | NumCarryOn: %2d\n", name, birthYear, weight, height, gender, numCarryOn);
 		return d;
 	}
 	
