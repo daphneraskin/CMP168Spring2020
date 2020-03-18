@@ -5,10 +5,15 @@ public class Elder extends Person implements Mover{
 	public double metabolizeAccumulatedCalories() {
 		double weightGained = 0;
 		int ca = this.getCaloriesAccumulator();
-		while (ca - 300 > 0) {
+		
+		while (ca - 300 >= 0) {
 			weightGained++;
 			this.gainWeight();
 			ca -= 300;
+		}
+		if (ca < 300) {
+			double frac = ca / 300.00;
+			this.gainWeight(frac);
 		}
 		this.setCaloriesAccumulator(0);
 		return weightGained;
@@ -47,9 +52,12 @@ public class Elder extends Person implements Mover{
 	@Override
 	public String move(int count) {
 		String a = "";
-		for (int i = 0; i<= count; i++) {
-			a.concat("ouch my back wait for me \n");
+		while (count > 1) {
+			String b = "ouch my back wait for me\n";
+			a += b;
+			count--;
 		}
+		a += "ouch my back wait for me";
 		return a;
 	}
 }
