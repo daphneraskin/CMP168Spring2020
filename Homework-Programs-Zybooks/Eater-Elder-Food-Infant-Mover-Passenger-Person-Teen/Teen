@@ -56,9 +56,12 @@ public class Teen extends Person implements Mover{
 	@Override
 	public String move(int count) {
 		String a = "";
-		for (int i = 0; i<= count; i++) {
-			a.concat("run fast and jump \n");
+		while (count > 1) {
+			String b = "run fast and jump \n";
+			a += b;
+			count--;
 		}
+		a += "run fast and jump";
 		return a;
 	}
 }
