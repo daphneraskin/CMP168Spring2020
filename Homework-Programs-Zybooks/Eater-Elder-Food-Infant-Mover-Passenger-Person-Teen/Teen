@@ -1,15 +1,11 @@
 
 public class Teen extends Person implements Mover{
 	
-	public static void main(String[] args) {
-		Teen teen = new Teen();
-		System.out.println(teen.move(4));
-	}
-	
 	@Override
 	public double metabolizeAccumulatedCalories() {
 		double weightGained = 0;
 		int ca = this.getCaloriesAccumulator();
+		
 		while (ca - 5000 >= 0) {
 			weightGained++;
 			this.gainWeight();
@@ -57,11 +53,12 @@ public class Teen extends Person implements Mover{
 	public String move(int count) {
 		String a = "";
 		while (count > 1) {
-			String b = "run fast and jump \n";
+			String b = "run fast and jump\n";
 			a += b;
 			count--;
 		}
 		a += "run fast and jump";
 		return a;
 	}
+
 }
