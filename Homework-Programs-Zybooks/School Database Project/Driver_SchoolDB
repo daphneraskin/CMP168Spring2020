@@ -30,9 +30,13 @@ public class Driver_SchoolDB {
 				String originalLine = scnr.nextLine();
 				String noCommas = originalLine.replace(",", "");
 				
+				
 				//split line into String[], each element being the subsequent word in the string
 				String[] arr = noCommas.split(" ");
 				
+				//test to see if the first element of the array is working correctly
+				System.out.println(arr[0]);
+
 				//use array to instantiate objects by passing array elements as parameters into constructors
 				if (arr[0] == "Course:") {
 					Course a = new Course(Boolean.parseBoolean(arr[1]), Integer.parseInt(arr[2]), arr[3], Integer.parseInt(arr[4]));
