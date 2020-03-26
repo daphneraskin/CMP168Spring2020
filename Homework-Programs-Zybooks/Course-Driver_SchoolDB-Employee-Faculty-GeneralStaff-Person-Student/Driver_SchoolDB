@@ -1,0 +1,119 @@
+import java.util.Scanner; 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Driver_SchoolDB {
+	
+	public static void main(String[] args) {
+		
+		File file = new File("/Users/raskings/Desktop/SchoolDB_Initial.txt");
+		Scanner scnr = null;
+		
+		//store instantiated objects in their corresponding array
+		Course[] courses = new Course[10];
+		int numCourses = 0;
+		Faculty[] faculty = new Faculty[10];
+		int numFaculty = 0;
+		GeneralStaff[] generalStaff = new GeneralStaff[10];
+		int numGeneralStaff = 0;
+		Student[] students = new Student[10];
+		int numStudents = 0;
+		
+		//read text file
+		try {
+			scnr = new Scanner(file);
+			while (scnr.hasNextLine()) {
+				
+				//read the text line and clean it up
+				String originalLine = scnr.nextLine();
+				String noCommas = originalLine.replace(",", "");
+				
+				//split line into String[], each element being the subsequent word in the string
+				String[] arr = noCommas.split(" ");
+				
+				//use array to instantiate objects by passing array elements as parameters into constructors
+				if (arr[0] == "Course:") {
+					Course a = new Course(Boolean.parseBoolean(arr[1]), Integer.parseInt(arr[2]), arr[3], Integer.parseInt(arr[4]));
+					courses[numCourses] = a;
+					numCourses++;
+					System.out.println(numCourses);
+				}
+				else if (arr[0] == "Faculty:") {
+					if (arr.length == 1) {
+						Faculty a = new Faculty();
+						faculty[numFaculty] = a;
+						numFaculty++;
+					}
+					if (arr.length == 2) {
+						Faculty a = new Faculty(Boolean.parseBoolean(arr[1]));
+						faculty[numFaculty] = a;
+						numFaculty++;
+					}
+					if (arr.length == 3) {
+						Faculty a = new Faculty(arr[1], Boolean.parseBoolean(arr[2]));
+						faculty[numFaculty] = a;
+						numFaculty++;
+					}
+					if (arr.length == 5) {
+						Faculty a = new Faculty(arr[1], Integer.parseInt(arr[2]), arr[3], Boolean.parseBoolean(arr[4]));
+						faculty[numFaculty] = a;
+						numFaculty++;
+					}
+				}
+				else if (arr[0] == "GeneralStaff:") {
+					if (arr.length == 1) {
+						GeneralStaff a = new GeneralStaff();
+						generalStaff[numGeneralStaff] = a;
+						numGeneralStaff++;
+					}
+					if (arr.length == 2) {
+						GeneralStaff a = new GeneralStaff(arr[1]);
+						generalStaff[numGeneralStaff] = a;
+						numGeneralStaff++;
+					}
+					if (arr.length == 3) {
+						GeneralStaff a = new GeneralStaff(arr[1],arr[2]);
+						generalStaff[numGeneralStaff] = a;
+						numGeneralStaff++;
+					}
+					if (arr.length == 5) {
+						GeneralStaff a = new GeneralStaff(arr[1], Integer.parseInt(arr[2]), arr[3], arr[4]);
+						generalStaff[numGeneralStaff] = a;
+						numGeneralStaff++;
+					}
+				}
+				else if (arr[0] == "Student:") {
+					if (arr.length == 1) {
+						Student a = new Student();
+						students[numStudents] = a;
+						numStudents++;
+					}
+					if (arr.length == 2) {
+						Student a = new Student(Boolean.parseBoolean(arr[1]));
+						students[numStudents] = a;
+						numStudents++;
+					}
+					if (arr.length == 3) {
+						Student a = new Student(arr[1], Boolean.parseBoolean(arr[2]));
+						students[numStudents] = a;
+						numStudents++;
+					}
+					if (arr.length == 5) {
+						Student a = new Student(arr[1], Integer.parseInt(arr[2]), arr[3], Boolean.parseBoolean(arr[4]));
+						students[numStudents] = a;
+						numStudents++;
+					}
+				}
+				
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("Error: " + e.getMessage());
+		} finally {
+			if (scnr != null) {
+				scnr.close();
+			}
+		}
+	}
+}
