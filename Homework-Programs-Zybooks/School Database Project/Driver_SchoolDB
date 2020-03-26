@@ -35,7 +35,7 @@ public class Driver_SchoolDB {
 				String[] arr = noCommas.split(" ");
 				
 				//test to see if the first element of the array is working correctly
-				//when run, the console prints the intended result
+				//when run, the console prints the intended results
 				System.out.println(arr[0]);
 
 				//use array to instantiate objects by passing array elements as parameters into constructors
