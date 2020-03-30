@@ -1,117 +1,142 @@
 
-public class Faculty extends Employee{
+public class Student extends Person{
 	
-	private Course[] coursesTaught = new Course[100];
-	private int numCoursesTaught;
-	private boolean isTenured;
+	private static int numStudents = 0; 
+	private int studentID; 
+	private Course[] coursesTaken;
+	private int numCoursesTaken;
+	private boolean isGraduate; 
+	private String major;
 	
-	public Faculty() {
-		coursesTaught = new Course[100];
-		numCoursesTaught = 0;
-		isTenured = false;
+	public Student() {
+		coursesTaken = new Course[50];
+		numCoursesTaken = 0;
+		isGraduate = false;
+		studentID = numStudents + 1;
+		numStudents++;
+		major = "undeclared";
 	}
 	
-	public Faculty(boolean isTenured) {
-		coursesTaught = new Course[100];
-		numCoursesTaught = 0;
-		this.isTenured = isTenured;
-	}
-	
-	public Faculty(String deptName, boolean isTenured) {
-		coursesTaught = new Course[100];
-		numCoursesTaught = 0;
-		super.setDeptName(deptName);
-		this.isTenured = isTenured;
-	}
-	
-	public Faculty(String name, int birthYear, String deptName, boolean isTenured) {
-		super(name, birthYear, deptName);
-		coursesTaught = new Course[100];
-		numCoursesTaught = 0;
-		this.isTenured = isTenured;
-	}
-	
-	public boolean isTenured() {
-		if (isTenured) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
-	public int getNumCoursesTaught() {
-		return numCoursesTaught;
-	}
-	
-	public void setIsTenured(boolean isTenured) {
-		this.isTenured = isTenured;
-	}
-	
-	public void addCourseTaught(Course course) {
+	public Student(boolean isGraduate) {
+		coursesTaken = new Course[50];
+		numCoursesTaken = 0;
+		studentID = numStudents + 1;
+		numStudents++;
+		major = "undeclared";
 		
-		if (numCoursesTaught < coursesTaught.length) {
-			coursesTaught[numCoursesTaught] = course;
-			numCoursesTaught++;
+		this.isGraduate = isGraduate;
+	}
+	
+	public Student(String major, boolean isGraduate) {
+		coursesTaken = new Course[50];
+		numCoursesTaken = 0;
+		studentID = numStudents + 1;
+		numStudents++;
+		this.isGraduate = isGraduate;
+		this.major = major;
+	}
+	
+	public Student(String name, int birthYear, String major, boolean isGraduate) {
+		super(name, birthYear);
+		coursesTaken = new Course[50];
+		numCoursesTaken = 0;
+		studentID = numStudents + 1;
+		numStudents++;
+		this.isGraduate = isGraduate;
+		this.major = major;
+	}
+	
+	public boolean isGraduate() {
+		return isGraduate;
+	}
+	
+	public int getNumCoursesTaken() {
+		return numCoursesTaken;
+	}
+	
+	public static int getNumStudents() {
+		return numStudents;
+	}
+	
+	public int getStudentID() {
+		return studentID;
+	}
+	
+	public String getMajor() {
+		return major;
+	}
+	
+	public void setIsGraduate(boolean isGraduate) {
+		this.isGraduate = isGraduate;
+	}
+	
+	public void setMajor(String major) {
+		this.major = major;
+	}
+	
+	public void addCourseTaken(Course course) {
+		//maximum capacity of coursesTaken is 50
+		if (numCoursesTaken < coursesTaken.length) {
+			coursesTaken[numCoursesTaken] = course;
+			numCoursesTaken++;
 		}
 	}
 	
-	public void addCoursesTaught(Course[] course) {
-		
-		if (numCoursesTaught < coursesTaught.length) {
-			if (course.length <= coursesTaught.length - numCoursesTaught) {
+	public void addCoursesTaken(Course[] course) {
+		if (numCoursesTaken < coursesTaken.length) {
+			if (course.length <= coursesTaken.length - numCoursesTaken) {
 				for (Course c: course) {
-					addCourseTaught(c);
+					addCourseTaken(c);
 				}
 			}
 		}
 	}
 	
-	public Course getCourseTaught(int index) {
-		if (index>=0 && index<numCoursesTaught) {
-			return coursesTaught[index];
+	public Course getCourseTaken(int index) {
+		if (index >= 0 && index<numCoursesTaken) {
+			return coursesTaken[index];
 		}
 		else {
 			return null;
 		}
 	}
 	
-	public String getCourseTaughtAsString(int index) {
-		
-		if (index>=0 && index<numCoursesTaught) {
-			String courseDept = coursesTaught[index].getCourseDept();
-			int courseNumm = coursesTaught[index].getCourseNum();
+	public String getCourseTakenAsString(int index) {
+		if (index >= 0 && index<numCoursesTaken) {
+			String courseDept = coursesTaken[index].getCourseDept();
+			int courseNumm = coursesTaken[index].getCourseNum();
 			String courseNum = Integer.toString(courseNumm);
 			return courseDept + "-" + courseNum;
 		}
 		else {
-			return "";
+			return null;
 		}
 	}
 	
-	public String getAllCoursesTaughtAsString() {
+	public String getAllCoursesTakenAsString()  {
 		String all = "";
-		for (int i = 0; i<numCoursesTaught-1; i++) {
-			String add = getCourseTaughtAsString(i) + ", ";
-			all = all + add;
+		if (numCoursesTaken > 0) {
+			for (int i = 0; i<numCoursesTaken-1; i++) {
+				String add = getCourseTakenAsString(i) + ", ";
+				all = all + add;
+			}
+			all = all + getCourseTakenAsString(numCoursesTaken-1);	
 		}
-		all = all + getCourseTaughtAsString(numCoursesTaught-1);
 		return all;
 	}
 	
-	
 	@Override
 	public int compareTo(Person that) {
-		Faculty e = (Faculty) that;
-		return Integer.compare(this.numCoursesTaught, e.numCoursesTaught);
+		Student e = (Student) that;
+		return Integer.compare(this.studentID, e.studentID);
 	}
 	
-	@Override
+	@Override 
 	public boolean equals(Object obj) {
-		if (obj instanceof Faculty) {
-			Faculty a = (Faculty)obj;
+		if (obj instanceof Student) {
+			Student a = (Student)obj;
 			if (super.equals(obj) == true) {
-				if (this.coursesTaught == a.coursesTaught && this.numCoursesTaught == a.numCoursesTaught && this.isTenured == a.isTenured){
+				if (this.studentID == a.studentID && this.coursesTaken == a.coursesTaken && this.numCoursesTaken == a.numCoursesTaken && this.isGraduate == a.isGraduate && this.major == a.major){
 					return true;
 				}
 				else {
@@ -126,17 +151,22 @@ public class Faculty extends Employee{
 			return false;
 		}
 	}
-
-	@Override 
+	
+	@Override
 	public String toString() {
 		String a = super.toString();
-		if (isTenured) {
-			String b = String.format("Faculty: Is Tenured | Number of Courses Taught: %3d | Courses Taught: %s", numCoursesTaught, coursesTaught);
+		String grad = "";
+		String courses = getAllCoursesTakenAsString();
+		if (isGraduate) {
+			grad = "Graduate";
+			String b = String.format(" Student: studentID: %04d | Major %20s | %14s | Number of Courses Taken: %3d | Courses Taken: %s", studentID, major, grad, numCoursesTaken, courses);
 			return a + b;
 		}
 		else {
-			String b = String.format("Faculty: Not Tenured | Number of Courses Taught: %3d | Courses Taught: %s", numCoursesTaught, coursesTaught);
+			grad = "Undergraduate";
+			String b = String.format(" Student: studentID: %04d | Major %20s | %14s | Number of Courses Taken: %3d | Courses Taken: %s", studentID, major, grad, numCoursesTaken, courses);
 			return a + b;
 		}
 	}
+	
 }
