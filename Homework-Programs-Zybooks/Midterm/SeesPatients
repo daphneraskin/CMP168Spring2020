@@ -1,0 +1,15 @@
+
+public interface SeesPatients {
+
+	public void addPatient(Patient a ) throws PatientException;
+	
+	public Patient[] getPatients();
+	
+	public String getPatientsAsString();
+	
+	public boolean isPatient(Patient a);
+	
+	public static int MAX_PATIENTS() {
+		return 100;
+	}
+}
