@@ -1,0 +1,64 @@
+
+public class Patient {
+
+	private static int numPatients = 0;
+	private String name;
+	private int birthYear;
+	private String ailment;
+	private int patientNumber;
+	
+	public Patient() {
+		name = "";
+		birthYear = 0000;
+		ailment = "";
+		patientNumber = numPatients + 1;
+		numPatients++;
+	}
+	
+	public Patient(String name, int birthYear, String ailment) {
+		this.name = name;
+		this.birthYear = birthYear;
+		this.ailment = ailment;
+		this.patientNumber = numPatients + 1;
+		numPatients++;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getBirthYear() {
+		return birthYear;
+	}
+	
+	public int getPatientNumber() {
+		return patientNumber;
+	}
+	
+	public String getAilment() {
+		return ailment;
+	}
+	
+	@Override
+	public String toString() {
+		String d = String.format("Patient [name= %20s | birthYear= %04d | patient number= %06d | ailment= %20s\n", name, birthYear, patientNumber, ailment);
+		return d;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Patient) {
+			Patient a = (Patient)obj;
+			if (name == a.name && birthYear == a.birthYear && patientNumber == a.patientNumber && ailment == a.ailment) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;			
+		}
+	}
+	
+}
