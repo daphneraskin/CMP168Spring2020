@@ -1,0 +1,73 @@
+import java.io.*;
+import java.util.Scanner; 
+
+public class ReadAndEditFile {
+
+	public static void main(String[] args) throws IOException{
+		
+		Scanner scnr = new Scanner(System.in);
+		FileInputStream fileByteStream = null;
+		Scanner inFS = null;
+		boolean nameNotValid = true;
+		
+		while (nameNotValid) {
+			
+			System.out.println("What is the name of your file?");
+			
+			String fileName = "";
+			if (scnr.hasNext()) {
+				fileName = scnr.next();
+			}
+			
+			
+			try {
+				
+				fileByteStream = new FileInputStream(fileName);
+				inFS = new Scanner(fileByteStream);
+				FileOutputStream fileStream = null;
+			    PrintWriter outFS = null;
+				
+			    fileStream = new FileOutputStream("HomeworkOutput6-2.txt");
+			    outFS = new PrintWriter(fileStream);
+			    
+				boolean firstLine = true;
+				
+		
+				
+				while(inFS.hasNextLine()) {
+					
+					String currLine = inFS.nextLine();
+					
+					if (firstLine) {
+						char first = currLine.charAt(0);
+						first = Character.toUpperCase(first);
+						currLine = first + currLine.substring(1, currLine.length());
+						firstLine = false;
+					}
+					
+					currLine = currLine.replace("  ", " ");
+					
+					char[] currLineArray = currLine.toCharArray();
+					
+					for (int i = 0; i< currLine.length(); i++) {
+						
+						if (currLineArray[i] == '.') {
+							currLineArray[i+2] = Character.toUpperCase(currLineArray[i+2]);
+						}
+					}
+					
+					currLine = String.copyValueOf(currLineArray);
+					
+					outFS.println(currLine);
+				
+				}
+				outFS.flush();
+			    fileStream.close();
+				nameNotValid = false;
+			} catch (Exception FileNotFoundException) {
+				System.out.println("File Not Found " + fileName);
+			}
+		}
+	}
+}
+
