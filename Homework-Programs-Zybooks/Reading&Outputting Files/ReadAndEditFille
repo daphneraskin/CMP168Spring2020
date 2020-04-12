@@ -10,15 +10,16 @@ public class ReadAndEditFile {
 		Scanner inFS = null;
 		boolean nameNotValid = true;
 		
+		String fileName = "";
 		while (nameNotValid) {
 			
 			System.out.println("What is the name of your file?");
 			
-			String fileName = "";
 			if (scnr.hasNext()) {
 				fileName = scnr.next();
+				nameNotValid = false;
 			}
-			
+		}
 			
 			try {
 				
@@ -69,5 +70,5 @@ public class ReadAndEditFile {
 			}
 		}
 	}
-}
+
 
