@@ -17,10 +17,8 @@ public class ReadAndEditFile {
 			
 			if (scnr.hasNext()) {
 				fileName = scnr.next();
-				nameNotValid = false;
 			}
-		}
-			
+		
 			try {
 				
 				fileByteStream = new FileInputStream(fileName);
@@ -70,5 +68,6 @@ public class ReadAndEditFile {
 			}
 		}
 	}
+}
 
 
