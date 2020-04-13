@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.Scanner; 
 
 public class ReadAndEditFile {
-
 	public static void main(String[] args) throws IOException{
 		
 		Scanner scnr = new Scanner(System.in);
@@ -10,59 +9,52 @@ public class ReadAndEditFile {
 		Scanner inFS = null;
 		boolean nameNotValid = true;
 		
-		String fileName = "";
 		while (nameNotValid) {
 			
 			System.out.println("What is the name of your file?");
-			
-			if (scnr.hasNext()) {
-				fileName = scnr.next();
-			}
+			String fileName = scnr.nextLine();
 		
 			try {
 				
 				fileByteStream = new FileInputStream(fileName);
 				inFS = new Scanner(fileByteStream);
+				
 				FileOutputStream fileStream = null;
 			    PrintWriter outFS = null;
 				
 			    fileStream = new FileOutputStream("HomeworkOutput6-2.txt");
 			    outFS = new PrintWriter(fileStream);
 			    
-				boolean firstLine = true;
+			    String all = "";
+			    
+			    while (inFS.hasNextLine()) {
+			    	String temp = inFS.nextLine();
+			    	all = all + temp + "\n";
+			    }
+			    
+			    
+				char first = all.charAt(0);
+				first = Character.toUpperCase(first);
+				all = first + all.substring(1, all.length());
 				
-		
+				all = all.replace("  ", " ");
 				
-				while(inFS.hasNextLine()) {
+				for (int i = 0; i< all.length()-2; i++) {
 					
-					String currLine = inFS.nextLine();
-					
-					if (firstLine) {
-						char first = currLine.charAt(0);
-						first = Character.toUpperCase(first);
-						currLine = first + currLine.substring(1, currLine.length());
-						firstLine = false;
+					if (all.charAt(i) == '.') {
+						char a = all.charAt(i+2);
+						a = Character.toUpperCase(all.charAt(i+2));
+						all = all.substring(0, i+2) + a + all.substring(3);
 					}
 					
-					currLine = currLine.replace("  ", " ");
-					
-					char[] currLineArray = currLine.toCharArray();
-					
-					for (int i = 0; i< currLine.length(); i++) {
-						
-						if (currLineArray[i] == '.') {
-							currLineArray[i+2] = Character.toUpperCase(currLineArray[i+2]);
-						}
-					}
-					
-					currLine = String.copyValueOf(currLineArray);
-					
-					outFS.println(currLine);
-				
 				}
+				
+				outFS.println(all);
 				outFS.flush();
+			
 			    fileStream.close();
 				nameNotValid = false;
+				
 			} catch (Exception FileNotFoundException) {
 				System.out.println("File Not Found " + fileName);
 			}
