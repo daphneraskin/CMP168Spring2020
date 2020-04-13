@@ -10,6 +10,7 @@ public class InputTextToOutputFile {
 		boolean nameNotValid = true;
 		System.out.println("What is the name of your output file?");
 		String fileName = scnr.nextLine();
+		String all = "";
 		String currLine = "";
 		
 		try {
@@ -19,13 +20,12 @@ public class InputTextToOutputFile {
 			while(nameNotValid) {
 				
 				currLine = scnr.nextLine();
-				
+				all = all + currLine + "\n";
 				if (currLine.contains("STOP!")) {	
 					nameNotValid = false;
 				}
-				
-				fileWriter.write(currLine + "\n");
 			}
+			fileWriter.write(all);
 			fileWriter.close();
 				
 		} catch (Exception FileNotFoundException) {
