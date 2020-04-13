@@ -1,0 +1,35 @@
+import java.io.*;
+import java.util.Scanner; 
+
+public class InputTextToOutputFile {
+
+	public static void main(String[] args) throws IOException{
+	
+		Scanner scnr = new Scanner(System.in);
+		
+		boolean nameNotValid = true;
+		System.out.println("What is the name of your output file?");
+		String fileName = scnr.nextLine();
+		String all = "";
+		String currLine = "";
+		try {
+			
+			FileWriter fileWriter = new FileWriter(fileName);
+			
+			while(nameNotValid) {
+				
+				currLine = scnr.nextLine();
+				all = currLine + "\n";
+				if (currLine.contains("STOP!")) {
+					all = currLine + "\n";
+					nameNotValid = false;
+				}
+				fileWriter.write(currLine + "\n");
+			}
+			fileWriter.close();
+				
+		} catch (Exception exception) {
+			System.out.println("Error");
+		}
+	}
+}
