@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class InputTextToOutputFile {
 
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws FileNotFoundException{
 	
 		Scanner scnr = new Scanner(System.in);
 		
@@ -21,14 +21,14 @@ public class InputTextToOutputFile {
 				currLine = scnr.nextLine();
 				all = currLine + "\n";
 				if (currLine.contains("STOP!")) {
-					all = currLine + "\n";
+					all = all + currLine + "\n";
 					nameNotValid = false;
 				}
 				fileWriter.write(currLine + "\n");
 			}
 			fileWriter.close();
 				
-		} catch (Exception exception) {
+		} catch (Exception FileNotFoundException) {
 			System.out.println("Error");
 		}
 	}
