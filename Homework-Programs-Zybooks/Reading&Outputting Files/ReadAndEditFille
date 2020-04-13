@@ -11,7 +11,7 @@ public class ReadAndEditFile {
 		
 		while (nameNotValid) {
 			
-			System.out.println("What is the name of your file?");
+			System.out.print("What is the name of your file?");
 			String fileName = scnr.nextLine();
 		
 			try {
@@ -51,11 +51,12 @@ public class ReadAndEditFile {
 				
 				outFS.println(all);
 				outFS.flush();
-			
+				outFS.close();
 			    fileStream.close();
 				nameNotValid = false;
 				
 			} catch (Exception FileNotFoundException) {
+				System.out.println();
 				System.out.println("File Not Found " + fileName);
 			}
 		}
