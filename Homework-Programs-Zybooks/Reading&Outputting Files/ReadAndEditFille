@@ -4,13 +4,12 @@ import java.util.Scanner;
 public class ReadAndEditFile {
 	public static void main(String[] args) throws IOException{
 		
-		Scanner scnr = new Scanner(System.in);
 		boolean nameNotValid = true;
 		
 		while (nameNotValid) {
-			
+			Scanner scnr = new Scanner(System.in);
 			System.out.println("What is the name of your file?");
-			String fileName = scnr.nextLine();
+			String fileName = scnr.next();
 			
 			try {
 				
@@ -18,8 +17,9 @@ public class ReadAndEditFile {
 				Scanner sc = new Scanner(file);
 				
 				String all = "";
+				String allNew = "";
 				while (sc.hasNextLine()) {
-					all += sc.nextLine();
+					all += sc.nextLine() + "\n";
 				}
 				
 				//capitalize first letter
@@ -28,11 +28,12 @@ public class ReadAndEditFile {
 				all = first + all;
 				
 				//remove extra spaces
-				all = all.replace("  ", " ");
+				all = all.replaceAll("  ", " ");
 				
-				//capitalize characters after periods
+				//capitalize characters after period
+				String[] sentences = all.split(".");
 				for (int i = 0; i<all.length()-1; i++) {
-					if (all.substring(i, i + 1) == ".") {
+					if (all.substring(i, i + 1).equals(".")) {
 						String curr = all.substring(i + 2, i + 3);
 						curr = all.substring(i + 2, i + 3).toUpperCase();
 						all = all.substring(0, i+2) + curr + all.substring(i+3, all.length()); 
@@ -51,7 +52,7 @@ public class ReadAndEditFile {
 			    nameNotValid = false;
 				outFS.flush();
 				outFS.close();
-			    fileStream.close();
+			    fileStream.close();			    
 			    
 			} catch (Exception FileNotFoundException) {
 				System.out.println("File Not Found " + fileName);
