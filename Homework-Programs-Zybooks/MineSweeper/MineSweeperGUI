@@ -1,0 +1,108 @@
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class MineSweeperGUI extends JFrame{
+	
+	private JPanel panel;
+	private JButton[][] buttons;
+	private GridLayout tryLayout;
+	private int numRows;
+	private int numColumns;
+	private int numBombs;
+	boolean[][] bombGrid;
+	private int[][] countGrid;
+	private Grid logic;
+	
+	public MineSweeperGUI(Grid userLogic) {
+		
+		super("MineSweeper Game");
+		
+		logic = userLogic;
+		int numRows = logic.getNumRows();
+		int numColumns = logic.getNumColumns();
+		int numBombs = logic.getNumBombs();
+		boolean[][] bombGrid = logic.getBombGrid();
+		int[][] countGrid = logic.getCountGrid();
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setSize(500, 500);
+		setResizable(false);
+		setLocationRelativeTo(null);
+		
+		tryLayout = new GridLayout(numRows, numColumns);
+		
+		panel = new JPanel();
+		panel.setLayout(tryLayout);
+		panel.setSize(500, 500);
+		
+		buttons = new JButton[numRows][numColumns];
+		addButtons(panel);
+		
+		add(panel, BorderLayout.CENTER);
+		
+		
+		setVisible(true);
+		
+	}
+	
+	
+	public void addButtons(JPanel panel) {
+		
+		for (int i = 0; i<numRows; i++) {
+			for (int j = 0; j<numColumns; j++) {
+				
+				buttons[i][j] = new JButton("");
+				int row = i;
+				int col = j;
+				
+				buttons[i][j].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent event){
+						
+						if (logic.isBombAtLocation(row, col)) {
+							for (int i = 0; i<numRows; i++) {
+								for (int j = 0; j<numRows; j++) {
+									if (logic.isBombAtLocation(i, j)) {
+										buttons[i][j].setText("Bomb!");
+										buttons[i][j].setEnabled(false);
+									}
+									else {
+										int count = logic.getCountAtLocation(row, col);
+										String counter = Integer.toString(count);
+										buttons[i][j].setText(counter);
+										buttons[i][j].setEnabled(false);
+									}
+								}
+							}
+						}
+						
+						else {
+							int count = logic.getCountAtLocation(row, col);
+							String counter = Integer.toString(count);
+							buttons[row][col].setText(counter);
+						}
+					
+					}
+				});
+				panel.add(buttons[i][j]);
+			}
+		}
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		Grid logic = new Grid(10, 10, 25);
+		new MineSweeperGUI(logic);
+		
+		}
+	}
+	
