@@ -1,0 +1,164 @@
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import java.util.Random;
+
+public class Grid {
+	private boolean[][] bombGrid;
+	private int[][] countGrid;
+	private int numRows;
+	private int numColumns;
+	private int numBombs;
+	
+	public Grid() {
+		numRows = 10;
+		numColumns = 10;
+		numBombs = 25;
+		bombGrid = new boolean[10][10];
+		countGrid = new int[10][10];
+		createBombGrid();
+		createCountGrid();
+		
+	}
+	
+	public Grid (int rows, int columns) {
+		numRows = rows;
+		numColumns = columns;
+		numBombs = 25;
+		bombGrid = new boolean[numRows][numColumns];
+		countGrid = new int[numRows][numColumns];
+		createBombGrid();
+		createCountGrid();
+	}
+	
+	public Grid (int rows, int columns, int bombs) {
+		numRows = rows;
+		numColumns = columns;
+		numBombs = bombs;
+		bombGrid = new boolean[numRows][numColumns];
+		countGrid = new int[numRows][numColumns];
+		createBombGrid();
+		createCountGrid();
+	}
+	
+	public int getNumRows() {
+		return numRows;
+	}
+	
+	public int getNumColumns() {
+		return numColumns;
+	}
+	
+	public int getNumBombs() {
+		return numBombs;
+	}
+	
+	public boolean[][] getBombGrid(){
+		boolean[][] copy = new boolean[numRows][numColumns];
+		for (int i = 0; i<numRows; i++) {
+			for (int j = 0; j<numColumns; j++) {
+				copy[i][j] = bombGrid[i][j];
+			}
+		}
+		return copy;
+	}
+	
+	public int[][] getCountGrid(){
+		int[][] copy = new int[numRows][numColumns];
+		for (int i = 0; i<numRows; i++) {
+			for (int j = 0; j<numColumns; j++) {
+				copy[i][j] = countGrid[i][j];
+			}
+		}
+		return copy;
+	}
+	
+	public boolean isBombAtLocation(int row, int column) {
+		
+		return bombGrid[row][column];
+
+	}
+	
+	public int getCountAtLocation(int row, int column) {
+		int counter = 0;
+		
+		if (bombGrid[row][column]) {
+			counter += 1;
+		}
+		
+		if (row+1 < numRows && bombGrid[row+1][column]) {
+			counter += 1;
+		}
+		
+		if (column+1 < numColumns && bombGrid[row][column+1]) {
+			counter += 1;
+		}
+		
+		if (column+1 < numColumns && row+1 <numRows && bombGrid[row+1][column+1]) {
+			counter += 1;
+		}
+		
+		if (column-1 >= 0 && row-1 >= 0 && bombGrid[row-1][column-1]) {
+			counter += 1;
+		}
+		
+		if (row-1 >= 0 && bombGrid[row-1][column]) {
+			counter += 1;
+		}
+		
+		if (column-1 >= 0 && bombGrid[row][column-1]) {
+			counter += 1;
+		}
+		
+		if (row-1 >= 0 && column+1 < numColumns && bombGrid[row-1][column+1]) {
+			counter += 1;
+		}
+		
+		if (column-1 >= 0 && row + 1 < numRows && bombGrid[row+1][column-1]) {
+			counter += 1;
+		}
+		
+		return counter;
+	}
+	
+	private void createBombGrid() {
+		
+		//set all buttons to false
+		for (int i = 0; i<numRows; i++) {
+			for (int j = 0; j<numColumns; j++) {
+				bombGrid[i][j] = false;
+			}
+		}
+		
+		//set specified number of bombs to true, randomly
+		for (int i = 0; i<numBombs; i++) {
+			
+			int trueRow = (int) (Math.random() * numRows) ;
+			int trueCol = (int) (Math.random() * numColumns);
+			
+			if (bombGrid[trueRow][trueCol]) {
+				i--;
+			}
+			else {
+				bombGrid[trueRow][trueCol] = true;
+			}
+		}
+		
+	}
+	
+	private void createCountGrid() {
+		
+		for (int i = 0; i<numRows; i++) {
+			for (int j = 0; j<numColumns; j++) {
+				countGrid[i][j] = getCountAtLocation(i, j);
+			}
+		}
+	}
+	
+}
