@@ -31,9 +31,8 @@ public class MineSweeperGUI extends JFrame {
 		numRows = logic.getNumRows();
 		numColumns = logic.getNumColumns();
 		numBombs = logic.getNumBombs();
-		numToWin = (numRows * numColumns) - numBombs;
 		
-		//set up a zeroGrid to keep track of disabled buttons set all elements to false)
+		//create a zeroGrid to keep track of disabled buttons set all elements to false
 		disabledGrid = new boolean [numRows][numColumns];
 		for (int i = 0; i<numRows; i++) {
 			for (int j = 0; j<numRows; j++) {
@@ -81,6 +80,7 @@ public class MineSweeperGUI extends JFrame {
 										buttons[i][j].setEnabled(false);
 										disabledGrid[i][j] = true;
 									} else {
+										numToWin = -1;
 										revealCell(i, j);
 									}
 								}
@@ -210,8 +210,8 @@ public class MineSweeperGUI extends JFrame {
 		}
 	}
 	
-	public void testWin(int clicks) {
-		if (clicks == ((numRows * numColumns) -numBombs)) {
+	public void testWin(int revealed) {
+		if (revealed == ((numRows * numColumns) -numBombs)) {
 			addJOptionPane("Congratulations, You Won the Game!", numRows, numColumns, numBombs);
 		}
 	}
@@ -303,6 +303,6 @@ public class MineSweeperGUI extends JFrame {
 	
 	public static void main(String[] args) {
 		
-		createGame(true, 10, 10, 1);
+		createGame(true, 5, 5, 1);
 	}
 }
