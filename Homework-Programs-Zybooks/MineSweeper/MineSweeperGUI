@@ -81,7 +81,7 @@ public class MineSweeperGUI extends JFrame {
 									if (logic.isBombAtLocation(i, j)) {
 										buttons[i][j].setText("Bomb");
 										buttons[i][j].setForeground(Color.WHITE);
-										buttons[i][j].setBackground(new Color(255, 153, 51));
+										buttons[i][j].setBackground(new Color(255, 204, 51));
 										buttons[i][j].setOpaque(true);
 										buttons[i][j].setEnabled(false);
 										disabledGrid[i][j] = true;
