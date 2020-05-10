@@ -42,7 +42,7 @@ public class MineSweeperGUI extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		setSize(500, 500);
+		setSize(800, 800);
 		setResizable(false);
 		setLocationRelativeTo(null);
 
@@ -303,6 +303,6 @@ public class MineSweeperGUI extends JFrame {
 	
 	public static void main(String[] args) {
 		
-		createGame(true, 5, 5, 1);
+		createGame(true, 10, 10, 25);
 	}
 }
