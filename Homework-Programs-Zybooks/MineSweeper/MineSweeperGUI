@@ -86,7 +86,7 @@ public class MineSweeperGUI extends JFrame {
 								}
 							}
 							
-							addJOptionPane("You Lost the Game!");
+							addJOptionPane("You Lost the Game!", numRows, numColumns, numBombs);
 							
 						} else if (logic.getCountAtLocation(row, col) == 0){
 							
@@ -103,10 +103,10 @@ public class MineSweeperGUI extends JFrame {
 		}
 	}
 
-	public void addJOptionPane(String title) {
+	public void addJOptionPane(String title, int rows, int cols, int bombs) {
 		int reply = JOptionPane.showConfirmDialog(null, "Would you like to play MineSweeper again?", title, JOptionPane.YES_NO_OPTION);
 		if (reply == JOptionPane.YES_OPTION) {
-			createGame(true);
+			createGame(true, rows, cols, bombs);
 		} else {
 		    createGame(false);
 		}
@@ -211,8 +211,8 @@ public class MineSweeperGUI extends JFrame {
 	}
 	
 	public void testWin(int clicks) {
-		if (clicks == ((numRows* numColumns) -numBombs)) {
-			addJOptionPane("Congratulations, You Won the Game!");
+		if (clicks == ((numRows * numColumns) -numBombs)) {
+			addJOptionPane("Congratulations, You Won the Game!", numRows, numColumns, numBombs);
 		}
 	}
 	
