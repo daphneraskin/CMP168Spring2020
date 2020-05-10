@@ -20,22 +20,18 @@ public class MineSweeperGUI extends JFrame {
 	private int numColumns;
 	private int numBombs;
 	boolean[][] bombGrid;
-	private int[][] countGrid;
 	private Grid logic;
 	private static boolean[][] disabledGrid;
-	private boolean gameOver;
-
+	private static int numToWin = 0;
 	public MineSweeperGUI(Grid userLogic) {
 		
 		super("MineSweeper Game");
-
+		
 		logic = userLogic;
 		numRows = logic.getNumRows();
 		numColumns = logic.getNumColumns();
 		numBombs = logic.getNumBombs();
-		gameOver = false;
-		boolean[][] bombGrid = logic.getBombGrid();
-		int[][] countGrid = logic.getCountGrid();
+		numToWin = (numRows * numColumns) - numBombs;
 		
 		//set up a zeroGrid to keep track of disabled buttons set all elements to false)
 		disabledGrid = new boolean [numRows][numColumns];
@@ -75,7 +71,6 @@ public class MineSweeperGUI extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent event) {
 						if (logic.isBombAtLocation(row, col)) {
-							boolean gameOver = true;
 							for (int i = 0; i < numRows; i++) {
 								for (int j = 0; j < numRows; j++) {
 									if (logic.isBombAtLocation(i, j)) {
@@ -86,17 +81,12 @@ public class MineSweeperGUI extends JFrame {
 										buttons[i][j].setEnabled(false);
 										disabledGrid[i][j] = true;
 									} else {
-										int count = logic.getCountAtLocation(i, j);
-										colorWheel(count, i, j);
-										String counter = Integer.toString(count);
-										buttons[i][j].setText(counter);
-										buttons[i][j].setEnabled(false);
-										disabledGrid[i][j] = true;
+										revealCell(i, j);
 									}
 								}
 							}
 							
-							addJOptionPane();
+							addJOptionPane("You Lost the Game!");
 							
 						} else if (logic.getCountAtLocation(row, col) == 0){
 							
@@ -104,12 +94,7 @@ public class MineSweeperGUI extends JFrame {
 						}
 						
 						else {
-							int count = logic.getCountAtLocation(row, col);
-							colorWheel(count, row, col);
-							String counter = Integer.toString(count);
-							buttons[row][col].setText(counter);
-							buttons[row][col].setEnabled(false);
-							disabledGrid[row][col] = true;
+							revealCell(row, col);
 						}
 					}
 				});
@@ -118,8 +103,8 @@ public class MineSweeperGUI extends JFrame {
 		}
 	}
 
-	public void addJOptionPane() {
-		int reply = JOptionPane.showConfirmDialog(null, "Would you like to play MineSweeper again?", "You Lost the Game!", JOptionPane.YES_NO_OPTION);
+	public void addJOptionPane(String title) {
+		int reply = JOptionPane.showConfirmDialog(null, "Would you like to play MineSweeper again?", title, JOptionPane.YES_NO_OPTION);
 		if (reply == JOptionPane.YES_OPTION) {
 			createGame(true);
 		} else {
@@ -130,6 +115,7 @@ public class MineSweeperGUI extends JFrame {
 	public static void createGame(boolean choice, int userRows, int userColumns, int userBombs) {
 		
 		boolean go = choice;
+		
 		
 		if (go) {
 			
@@ -210,79 +196,81 @@ public class MineSweeperGUI extends JFrame {
 		
 	}
 	
-	
 	public void revealCell(int r, int c) {
 		
-		int a = logic.getCountAtLocation(r, c);
-		colorWheel(a, r, c);
-		String counter = Integer.toString(a);
-		buttons[r][c].setText(counter);
-		buttons[r][c].setEnabled(false);
-		disabledGrid[r][c] = true;
-		
+		if (!(disabledGrid[r][c])) {
+			int a = logic.getCountAtLocation(r, c);
+			colorWheel(a, r, c);
+			String counter = Integer.toString(a);
+			buttons[r][c].setText(counter);
+			buttons[r][c].setEnabled(false);
+			disabledGrid[r][c] = true;
+			numToWin++;
+			testWin(numToWin);
+		}
 	}
+	
+	public void testWin(int clicks) {
+		if (clicks == ((numRows* numColumns) -numBombs)) {
+			addJOptionPane("Congratulations, You Won the Game!");
+		}
+	}
+	
 	public void disableZeros(int r, int c) {
 		
 		if (!(disabledGrid[r][c])) {
 			revealCell(r, c);
 		}
-		disableSurrounding(r, c);
 		
 		if (r+1 < numRows && logic.getCountAtLocation(r+1, c) == 0 && !(disabledGrid[r+1][c])) {
-			revealCell(r+1, c);
-			disableSurrounding(r+1, c);
 			disableZeros(r+1, c);
+			disableSurrounding(r+1, c);
 			
 		}
 		
 		if (c+1 < numColumns && logic.getCountAtLocation(r, c+1) ==0 && !(disabledGrid[r][c+1])) {
-			revealCell(r, c+1);
-			disableSurrounding(r, c+1);
 			disableZeros(r, c+1);
+			disableSurrounding(r, c+1);
 			
 		}
 		
 		if (c+1 < numColumns && r+1 <numRows && logic.getCountAtLocation(r+1, c+1)==0 && !(disabledGrid[r+1][c+1])) {
-			revealCell(r+1, c+1);
-			disableSurrounding(r+1, c+1);
 			disableZeros(r+1, c+1);
+			disableSurrounding(r+1, c+1);
 			
 		}
 		
-		if (c-1 > 0 && r-1 > 0 && logic.getCountAtLocation(r-1, c-1) == 0 && !(disabledGrid[r-1][c-1])) {
-			revealCell(r-1, c-1);
-			disableSurrounding(r-1, c-1);
+		if (c-1 >= 0 && r-1 >= 0 && logic.getCountAtLocation(r-1, c-1) == 0 && !(disabledGrid[r-1][c-1])) {
 			disableZeros(r-1, c-1);
+			disableSurrounding(r-1, c-1);
 			
 		}
 		
-		if (r-1 > 0 && logic.getCountAtLocation(r-1, c) == 0 && !(disabledGrid[r-1][c])) {
-			revealCell(r-1, c);
-			disableSurrounding(r-1, c);
+		if (r-1 >= 0 && logic.getCountAtLocation(r-1, c) == 0 && !(disabledGrid[r-1][c])) {
 			disableZeros(r-1, c);
+			disableSurrounding(r-1, c);
 			
 		}
 		
-		if (c-1 > 0 && logic.getCountAtLocation(r, c-1) == 0 && !(disabledGrid[r][c-1])) {
-			revealCell(r, c-1);
-			disableSurrounding(r, c-1);
+		if (c-1 >= 0 && logic.getCountAtLocation(r, c-1) == 0 && !(disabledGrid[r][c-1])) {
 			disableZeros(r, c-1);
+			disableSurrounding(r, c-1);
 			
 		}
 		
-		if (r-1 > 0 && c+1 < numColumns && logic.getCountAtLocation(r-1, c+1) == 0 && !(disabledGrid[r-1][c+1])) {
-			revealCell(r-1, c+1);
-			disableSurrounding(r-1, c+1);
+		if (r-1 >= 0 && c+1 < numColumns && logic.getCountAtLocation(r-1, c+1) == 0 && !(disabledGrid[r-1][c+1])) {
 			disableZeros(r-1, c+1);
+			disableSurrounding(r-1, c+1);
 			
 		}
 		
-		if (c-1 > 0 && r + 1 < numRows && logic.getCountAtLocation(r+1, c-1) == 0 && !(disabledGrid[r+1][c-1])) {
-			revealCell(r+1, c-1);
-			disableSurrounding(r+1, c-1);
+		if (c-1 >= 0 && r + 1 < numRows && logic.getCountAtLocation(r+1, c-1) == 0 && !(disabledGrid[r+1][c-1])) {
 			disableZeros(r+1, c-1);
+			disableSurrounding(r+1, c-1);
 			
 		}	
+		
+		disableSurrounding(r, c);
 	}
 	
 	public void disableSurrounding(int r, int c) {
@@ -296,25 +284,25 @@ public class MineSweeperGUI extends JFrame {
 		if (r+1<numRows && c+1 <numColumns && !(disabledGrid[r+1][c+1])) {
 			revealCell(r+1, c+1);
 		}
-		if (c-1> 0 && !(disabledGrid[r][c-1])) {
+		if (c-1>= 0 && !(disabledGrid[r][c-1])) {
 			revealCell(r, c-1);
 		}
-		if (r-1> 0 && !(disabledGrid[r-1][c])) {
+		if (r-1>= 0 && !(disabledGrid[r-1][c])) {
 			revealCell(r-1, c);
 		}
-		if (r-1> 0 && c-1 > 0 && !(disabledGrid[r-1][c-1])) {
+		if (r-1>= 0 && c-1 >= 0 && !(disabledGrid[r-1][c-1])) {
 			revealCell(r-1, c-1);
 		}
-		if (r+1<numRows && c-1 > 0 && !(disabledGrid[r+1][c-1])) {
+		if (r+1<numRows && c-1 >= 0 && !(disabledGrid[r+1][c-1])) {
 			revealCell(r+1, c-1);
 		}
-		if (r-1>0 && c+1<numColumns && !(disabledGrid[r-1][c+1])) {
+		if (r-1>=0 && c+1<numColumns && !(disabledGrid[r-1][c+1])) {
 			revealCell(r-1, c+1);
 		}
 	}
 	
 	public static void main(String[] args) {
 		
-		createGame(true);
+		createGame(true, 10, 10, 1);
 	}
 }
