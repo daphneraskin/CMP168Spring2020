@@ -210,72 +210,111 @@ public class MineSweeperGUI extends JFrame {
 		
 	}
 	
-	public void disableZeros(int r, int c) {
+	
+	public void revealCell(int r, int c) {
 		
-		colorWheel(0, r, c);
-		buttons[r][c].setText("0");
+		int a = logic.getCountAtLocation(r, c);
+		colorWheel(a, r, c);
+		String counter = Integer.toString(a);
+		buttons[r][c].setText(counter);
 		buttons[r][c].setEnabled(false);
 		disabledGrid[r][c] = true;
 		
+	}
+	public void disableZeros(int r, int c) {
+		
+		if (!(disabledGrid[r][c])) {
+			revealCell(r, c);
+		}
+		disableSurrounding(r, c);
+		
 		if (r+1 < numRows && logic.getCountAtLocation(r+1, c) == 0 && !(disabledGrid[r+1][c])) {
-			buttons[r+1][c].setText("0");
-			buttons[r+1][c].setEnabled(false);
-			disabledGrid[r+1][c] = true;
+			revealCell(r+1, c);
+			disableSurrounding(r+1, c);
 			disableZeros(r+1, c);
+			
 		}
 		
 		if (c+1 < numColumns && logic.getCountAtLocation(r, c+1) ==0 && !(disabledGrid[r][c+1])) {
-			buttons[r][c+1].setText("0");
-			buttons[r][c+1].setEnabled(false);
-			disabledGrid[r][c+1] = true;
+			revealCell(r, c+1);
+			disableSurrounding(r, c+1);
 			disableZeros(r, c+1);
+			
 		}
 		
 		if (c+1 < numColumns && r+1 <numRows && logic.getCountAtLocation(r+1, c+1)==0 && !(disabledGrid[r+1][c+1])) {
-			buttons[r+1][c+1].setText("0");
-			buttons[r+1][c+1].setEnabled(false);
-			disabledGrid[r+1][c+1] = true;
+			revealCell(r+1, c+1);
+			disableSurrounding(r+1, c+1);
 			disableZeros(r+1, c+1);
+			
 		}
 		
 		if (c-1 > 0 && r-1 > 0 && logic.getCountAtLocation(r-1, c-1) == 0 && !(disabledGrid[r-1][c-1])) {
-			buttons[r-1][c-1].setText("0");
-			buttons[r-1][c-1].setEnabled(false);
-			disabledGrid[r-1][c-1] = true;
+			revealCell(r-1, c-1);
+			disableSurrounding(r-1, c-1);
 			disableZeros(r-1, c-1);
+			
 		}
 		
 		if (r-1 > 0 && logic.getCountAtLocation(r-1, c) == 0 && !(disabledGrid[r-1][c])) {
-			buttons[r-1][c].setText("0");
-			buttons[r-1][c].setEnabled(false);
-			disabledGrid[r-1][c] = true;
+			revealCell(r-1, c);
+			disableSurrounding(r-1, c);
 			disableZeros(r-1, c);
+			
 		}
 		
 		if (c-1 > 0 && logic.getCountAtLocation(r, c-1) == 0 && !(disabledGrid[r][c-1])) {
-			buttons[r][c-1].setText("0");
-			buttons[r][c-1].setEnabled(false);
-			disabledGrid[r][c-1] = true;
+			revealCell(r, c-1);
+			disableSurrounding(r, c-1);
 			disableZeros(r, c-1);
+			
 		}
 		
 		if (r-1 > 0 && c+1 < numColumns && logic.getCountAtLocation(r-1, c+1) == 0 && !(disabledGrid[r-1][c+1])) {
-			buttons[r-1][c+1].setText("0");
-			buttons[r-1][c+1].setEnabled(false);
-			disabledGrid[r-1][c+1] = true;
+			revealCell(r-1, c+1);
+			disableSurrounding(r-1, c+1);
 			disableZeros(r-1, c+1);
+			
 		}
 		
 		if (c-1 > 0 && r + 1 < numRows && logic.getCountAtLocation(r+1, c-1) == 0 && !(disabledGrid[r+1][c-1])) {
-			buttons[r+1][c-1].setText("0");
-			buttons[r+1][c-1].setEnabled(false);
-			disabledGrid[r+1][c-1] = true;
+			revealCell(r+1, c-1);
+			disableSurrounding(r+1, c-1);
 			disableZeros(r+1, c-1);
+			
 		}	
+	}
+	
+	public void disableSurrounding(int r, int c) {
+		
+		if (r+1<numRows && !(disabledGrid[r+1][c])) {
+			revealCell(r+1, c);
+		}
+		if (c+1<numColumns && !(disabledGrid[r][c+1])) {
+			revealCell(r, c+1);
+		}
+		if (r+1<numRows && c+1 <numColumns && !(disabledGrid[r+1][c+1])) {
+			revealCell(r+1, c+1);
+		}
+		if (c-1> 0 && !(disabledGrid[r][c-1])) {
+			revealCell(r, c-1);
+		}
+		if (r-1> 0 && !(disabledGrid[r-1][c])) {
+			revealCell(r-1, c);
+		}
+		if (r-1> 0 && c-1 > 0 && !(disabledGrid[r-1][c-1])) {
+			revealCell(r-1, c-1);
+		}
+		if (r+1<numRows && c-1 > 0 && !(disabledGrid[r+1][c-1])) {
+			revealCell(r+1, c-1);
+		}
+		if (r-1>0 && c+1<numColumns && !(disabledGrid[r-1][c+1])) {
+			revealCell(r-1, c+1);
+		}
 	}
 	
 	public static void main(String[] args) {
 		
-		createGame(true, 5, 5, 1);
+		createGame(true);
 	}
 }
