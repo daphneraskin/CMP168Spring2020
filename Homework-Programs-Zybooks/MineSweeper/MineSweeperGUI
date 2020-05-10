@@ -2,13 +2,17 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 public class MineSweeperGUI extends JFrame {
+	
+	Scanner scnr = new Scanner(System.in);
+	
 	private JPanel panel;
 	private JButton[][] buttons;
 	private GridLayout tryLayout;
@@ -19,6 +23,7 @@ public class MineSweeperGUI extends JFrame {
 	private int[][] countGrid;
 	private Grid logic;
 	private static boolean[][] disabledGrid;
+	private boolean gameOver;
 
 	public MineSweeperGUI(Grid userLogic) {
 		
@@ -28,6 +33,7 @@ public class MineSweeperGUI extends JFrame {
 		numRows = logic.getNumRows();
 		numColumns = logic.getNumColumns();
 		numBombs = logic.getNumBombs();
+		gameOver = false;
 		boolean[][] bombGrid = logic.getBombGrid();
 		int[][] countGrid = logic.getCountGrid();
 		
@@ -54,6 +60,7 @@ public class MineSweeperGUI extends JFrame {
 		addButtons(panel);
 		add(panel);
 		setVisible(true);
+		
 	}
 
 	public void addButtons(JPanel panel) {
@@ -68,7 +75,7 @@ public class MineSweeperGUI extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent event) {
 						if (logic.isBombAtLocation(row, col)) {
-							
+							boolean gameOver = true;
 							for (int i = 0; i < numRows; i++) {
 								for (int j = 0; j < numRows; j++) {
 									if (logic.isBombAtLocation(i, j)) {
@@ -88,6 +95,8 @@ public class MineSweeperGUI extends JFrame {
 									}
 								}
 							}
+							
+							addJOptionPane();
 							
 						} else if (logic.getCountAtLocation(row, col) == 0){
 							
@@ -109,9 +118,44 @@ public class MineSweeperGUI extends JFrame {
 		}
 	}
 
-	public void createGame() {
+	public void addJOptionPane() {
+		int reply = JOptionPane.showConfirmDialog(null, "Would you like to play MineSweeper again?", "You Lost the Game!", JOptionPane.YES_NO_OPTION);
+		if (reply == JOptionPane.YES_OPTION) {
+			createGame(true);
+		} else {
+		    createGame(false);
+		}
+	}
+	
+	public static void createGame(boolean choice, int userRows, int userColumns, int userBombs) {
 		
+		boolean go = choice;
 		
+		if (go) {
+			
+			Grid logic = new Grid(userRows, userColumns, userBombs);
+			new MineSweeperGUI(logic);
+				
+		}
+		else {
+			System.exit(0);
+		}
+	}
+	
+	public static void createGame(boolean choice) {
+		
+		boolean go = choice;
+		
+		if (go) {
+			
+			Grid logic = new Grid(10, 10, 25);
+			new MineSweeperGUI(logic);
+			
+			
+		}
+		else {
+			System.exit(0);
+		}
 	}
 	
 	public void colorWheel(int count,int r, int c) {
@@ -232,7 +276,6 @@ public class MineSweeperGUI extends JFrame {
 	
 	public static void main(String[] args) {
 		
-		Grid logic = new Grid(5, 5, 1);
-		new MineSweeperGUI(logic);
+		createGame(true, 5, 5, 1);
 	}
 }
