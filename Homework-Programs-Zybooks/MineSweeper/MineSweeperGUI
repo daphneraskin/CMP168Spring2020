@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 public class MineSweeperGUI extends JFrame {
 	private JPanel panel;
@@ -16,8 +18,10 @@ public class MineSweeperGUI extends JFrame {
 	boolean[][] bombGrid;
 	private int[][] countGrid;
 	private Grid logic;
+	private static boolean[][] disabledGrid;
 
 	public MineSweeperGUI(Grid userLogic) {
+		
 		super("MineSweeper Game");
 
 		logic = userLogic;
@@ -26,6 +30,14 @@ public class MineSweeperGUI extends JFrame {
 		numBombs = logic.getNumBombs();
 		boolean[][] bombGrid = logic.getBombGrid();
 		int[][] countGrid = logic.getCountGrid();
+		
+		//set up a zeroGrid to keep track of disabled buttons set all elements to false)
+		disabledGrid = new boolean [numRows][numColumns];
+		for (int i = 0; i<numRows; i++) {
+			for (int j = 0; j<numRows; j++) {
+				disabledGrid[i][j] = false;
+			}
+		}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -48,6 +60,8 @@ public class MineSweeperGUI extends JFrame {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
 				buttons[i][j] = new JButton("");
+				buttons[i][j].setBorder(new LineBorder(Color.WHITE));
+				buttons[i][j].setForeground(Color.WHITE);
 				int row = i;
 				int col = j;
 				buttons[i][j].addActionListener(new ActionListener() {
@@ -58,24 +72,35 @@ public class MineSweeperGUI extends JFrame {
 							for (int i = 0; i < numRows; i++) {
 								for (int j = 0; j < numRows; j++) {
 									if (logic.isBombAtLocation(i, j)) {
-										buttons[i][j].setText("Bomb!");
+										buttons[i][j].setText("Bomb");
+										buttons[i][j].setForeground(Color.WHITE);
+										buttons[i][j].setBackground(new Color(255, 153, 51));
+										buttons[i][j].setOpaque(true);
 										buttons[i][j].setEnabled(false);
+										disabledGrid[i][j] = true;
 									} else {
 										int count = logic.getCountAtLocation(i, j);
+										colorWheel(count, i, j);
 										String counter = Integer.toString(count);
 										buttons[i][j].setText(counter);
 										buttons[i][j].setEnabled(false);
+										disabledGrid[i][j] = true;
 									}
 								}
 							}
 							
 						} else if (logic.getCountAtLocation(row, col) == 0){
 							
+								disableZeros(row, col);
 						}
+						
 						else {
 							int count = logic.getCountAtLocation(row, col);
+							colorWheel(count, row, col);
 							String counter = Integer.toString(count);
 							buttons[row][col].setText(counter);
+							buttons[row][col].setEnabled(false);
+							disabledGrid[row][col] = true;
 						}
 					}
 				});
@@ -84,8 +109,130 @@ public class MineSweeperGUI extends JFrame {
 		}
 	}
 
+	public void createGame() {
+		
+		
+	}
+	
+	public void colorWheel(int count,int r, int c) {
+		
+		if (count ==0) {
+			buttons[r][c].setBackground(new Color(204, 229, 255));
+			buttons[r][c].setOpaque(true);
+		}
+		if (count == 1) {
+			buttons[r][c].setBackground(new Color(153, 204, 255));
+			buttons[r][c].setOpaque(true);
+		}
+		if (count == 2) {
+			buttons[r][c].setBackground(new Color(102, 178, 255));
+			buttons[r][c].setOpaque(true);
+		}
+		if (count == 3) {
+			buttons[r][c].setBackground(new Color(51, 153, 255));
+			buttons[r][c].setOpaque(true);
+			buttons[r][c].setForeground(Color.white);
+		}
+		if (count == 4) {
+			buttons[r][c].setBackground(new Color(0, 128, 255));
+			buttons[r][c].setOpaque(true);
+			buttons[r][c].setForeground(Color.white);
+		}
+		if (count == 5) {
+			buttons[r][c].setBackground(new Color(0, 102, 255));
+			buttons[r][c].setOpaque(true);
+			buttons[r][c].setForeground(Color.white);
+		}
+		if (count == 6) {
+			buttons[r][c].setBackground(new Color(0, 76, 153));
+			buttons[r][c].setOpaque(true);
+			buttons[r][c].setForeground(Color.white);
+		}
+		if (count == 7) {
+			buttons[r][c].setBackground(new Color(0, 51, 102));
+			buttons[r][c].setForeground(Color.white);
+			buttons[r][c].setOpaque(true);
+		}
+		if (count == 8) {
+			buttons[r][c].setBackground(new Color(0, 25, 51));
+			buttons[r][c].setForeground(Color.white);
+			buttons[r][c].setOpaque(true);
+		}
+		if (count == 9) {
+			buttons[r][c].setBackground(new Color(0, 0, 0));
+			buttons[r][c].setForeground(Color.white);
+			buttons[r][c].setOpaque(true);
+		}
+		
+	}
+	
+	public void disableZeros(int r, int c) {
+		
+		colorWheel(0, r, c);
+		buttons[r][c].setText("0");
+		buttons[r][c].setEnabled(false);
+		disabledGrid[r][c] = true;
+		
+		if (r+1 < numRows && logic.getCountAtLocation(r+1, c) == 0 && !(disabledGrid[r+1][c])) {
+			buttons[r+1][c].setText("0");
+			buttons[r+1][c].setEnabled(false);
+			disabledGrid[r+1][c] = true;
+			disableZeros(r+1, c);
+		}
+		
+		if (c+1 < numColumns && logic.getCountAtLocation(r, c+1) ==0 && !(disabledGrid[r][c+1])) {
+			buttons[r][c+1].setText("0");
+			buttons[r][c+1].setEnabled(false);
+			disabledGrid[r][c+1] = true;
+			disableZeros(r, c+1);
+		}
+		
+		if (c+1 < numColumns && r+1 <numRows && logic.getCountAtLocation(r+1, c+1)==0 && !(disabledGrid[r+1][c+1])) {
+			buttons[r+1][c+1].setText("0");
+			buttons[r+1][c+1].setEnabled(false);
+			disabledGrid[r+1][c+1] = true;
+			disableZeros(r+1, c+1);
+		}
+		
+		if (c-1 > 0 && r-1 > 0 && logic.getCountAtLocation(r-1, c-1) == 0 && !(disabledGrid[r-1][c-1])) {
+			buttons[r-1][c-1].setText("0");
+			buttons[r-1][c-1].setEnabled(false);
+			disabledGrid[r-1][c-1] = true;
+			disableZeros(r-1, c-1);
+		}
+		
+		if (r-1 > 0 && logic.getCountAtLocation(r-1, c) == 0 && !(disabledGrid[r-1][c])) {
+			buttons[r-1][c].setText("0");
+			buttons[r-1][c].setEnabled(false);
+			disabledGrid[r-1][c] = true;
+			disableZeros(r-1, c);
+		}
+		
+		if (c-1 > 0 && logic.getCountAtLocation(r, c-1) == 0 && !(disabledGrid[r][c-1])) {
+			buttons[r][c-1].setText("0");
+			buttons[r][c-1].setEnabled(false);
+			disabledGrid[r][c-1] = true;
+			disableZeros(r, c-1);
+		}
+		
+		if (r-1 > 0 && c+1 < numColumns && logic.getCountAtLocation(r-1, c+1) == 0 && !(disabledGrid[r-1][c+1])) {
+			buttons[r-1][c+1].setText("0");
+			buttons[r-1][c+1].setEnabled(false);
+			disabledGrid[r-1][c+1] = true;
+			disableZeros(r-1, c+1);
+		}
+		
+		if (c-1 > 0 && r + 1 < numRows && logic.getCountAtLocation(r+1, c-1) == 0 && !(disabledGrid[r+1][c-1])) {
+			buttons[r+1][c-1].setText("0");
+			buttons[r+1][c-1].setEnabled(false);
+			disabledGrid[r+1][c-1] = true;
+			disableZeros(r+1, c-1);
+		}	
+	}
+	
 	public static void main(String[] args) {
-		Grid logic = new Grid(10, 10, 25);
+		
+		Grid logic = new Grid(5, 5, 1);
 		new MineSweeperGUI(logic);
 	}
 }
