@@ -90,8 +90,8 @@ public class MineSweeperGUI extends JFrame {
 	public void addFlag(int r, int c) {
 		
 		JLabel flagged = new JLabel("Flagged");
-		buttons[r][c].add(flagged);
 		flagged.setVisible(true);
+		buttons[r][c].add(flagged);
 		panel.add(buttons[r][c]);
 		add(panel);
 		
