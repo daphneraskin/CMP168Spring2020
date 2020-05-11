@@ -23,10 +23,12 @@ public class MineSweeperGUI extends JFrame {
 	private Grid logic;
 	private static boolean[][] disabledGrid;
 	private static int numToWin = 0;
+	
 	public MineSweeperGUI(Grid userLogic) {
 		
 		super("MineSweeper Game");
 		
+		numToWin = 0;
 		logic = userLogic;
 		numRows = logic.getNumRows();
 		numColumns = logic.getNumColumns();
@@ -80,7 +82,7 @@ public class MineSweeperGUI extends JFrame {
 										buttons[i][j].setEnabled(false);
 										disabledGrid[i][j] = true;
 									} else {
-										numToWin = -1;
+										numToWin = -1000;
 										revealCell(i, j);
 									}
 								}
@@ -116,7 +118,6 @@ public class MineSweeperGUI extends JFrame {
 		
 		boolean go = choice;
 		
-		
 		if (go) {
 			
 			Grid logic = new Grid(userRows, userColumns, userBombs);
@@ -130,6 +131,7 @@ public class MineSweeperGUI extends JFrame {
 	
 	public static void createGame(boolean choice) {
 		
+		numToWin = 0;
 		boolean go = choice;
 		
 		if (go) {
@@ -144,7 +146,7 @@ public class MineSweeperGUI extends JFrame {
 		}
 	}
 	
-	public void colorWheel(int count,int r, int c) {
+	public void colorWheel(int count, int r, int c) {
 		
 		if (count ==0) {
 			buttons[r][c].setBackground(new Color(204, 229, 255));
@@ -303,6 +305,6 @@ public class MineSweeperGUI extends JFrame {
 	
 	public static void main(String[] args) {
 		
-		createGame(true, 10, 10, 25);
+		createGame(true, 5, 5, 1);
 	}
 }
