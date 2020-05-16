@@ -1,0 +1,86 @@
+
+public class Homework7_1 {
+
+	public static int fib(int n) {
+		if (n == 0) {
+			return 0;
+		}
+		else if (n == 1) {
+			return 1;
+		}
+		else {
+			return fib(n-1) + fib(n-2);
+		}
+	}
+	
+	public static int getPowerOfXtoN(int x, int exp) {
+		if (exp == 0) {
+			return 1;
+		}
+		else if (exp == 1) {
+			return x;
+		}
+		else {
+			return getPowerOfXtoN(x, 1) * getPowerOfXtoN(x, exp-1);
+		}
+	}
+	
+	public static int binarySearch(String target, String[] words) {
+		int mid; 
+		int low = 0;
+		int high = words.length - 1;
+		
+		
+		while (high> low) {
+			mid = (high + low) / 2;
+			if (words[mid].compareTo(target) <0) {
+				low = mid + 1;
+			}
+			else if (words[mid].compareTo(target)> 0) {
+				high = mid-1;
+			}
+			else {
+				return mid;
+			}
+		}
+		return -1;
+	}
+	
+	public static int organizeParade(int pL) {
+		if (pL == 1) {
+			return 2;
+		}
+		else if (pL == 2) {
+			return 3;
+		}
+		else {
+			return organizeParade(pL-1) + organizeParade(pL-2);
+		}
+	}
+	
+	public static int numJarsNeeded(int candyCount, int jarCapacity) {
+		
+		if (candyCount % jarCapacity < jarCapacity) {
+			int remainder = 0;
+			if ((candyCount % jarCapacity) != 0) {
+				remainder = 1;
+			}
+			return candyCount / jarCapacity + remainder;
+		}
+		else {
+			int mid = candyCount / 2;
+			return numJarsNeeded(mid, jarCapacity) + numJarsNeeded(mid, jarCapacity);
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(fib(6));
+		System.out.println(getPowerOfXtoN(-2, 3));
+		
+		String[] a = {"hello", "dog", "cat", "name", "salad", "frog"};
+		System.out.println(binarySearch("cat", a));
+		System.out.println(organizeParade(4));
+		System.out.println(numJarsNeeded(10, 2));
+	}
+}
