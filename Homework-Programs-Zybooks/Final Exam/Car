@@ -1,0 +1,140 @@
+import java.util.Arrays;
+
+public class Car extends Vehicle{
+
+	private int numDoors;
+	private int numWindows;
+	
+	public Car(int numDoors, int numWindows) {
+		super(2, 2);
+		this.numDoors = numDoors; 
+		this.numWindows = numWindows;
+	}
+	
+	public Car(int numDoors, int numWindows, int numSeatsPerRow) {
+		super(2, numSeatsPerRow);
+		this.numDoors = numDoors; 
+		this.numWindows = numWindows;
+	}
+
+	public Car(int numDoors, int numWindows, int[] numSeatsPerRow) {
+		super(numSeatsPerRow);
+		this.numDoors = numDoors; 
+		this.numWindows = numWindows;
+	}
+	
+	public Car(int numDoors, int numWindows, Person driver, int[] numSeatsPerRow) {
+		super(driver, numSeatsPerRow);
+		this.numDoors = numDoors; 
+		this.numWindows = numWindows;
+	}
+	
+	public boolean canOpenDoor(Person p) {
+		int[] location = getLocationOfPersonInVehicle(p);
+		int[] test = {-1, -1};
+		
+		if (!(Arrays.equals(location, test))) {
+			if (location[1] == 0 || (location[1] == numSeatsPerRow[(location[0])] -1) ) {
+				if (p.getAge() <= 5) {
+					return false;
+				}
+				else if (numDoors < (2 * numberOfRows) && location[0] > (numDoors / 2)) {
+					return false;
+				}
+				else{
+					return true;
+				}
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean canOpenWindow(Person p) {
+		int[] location = getLocationOfPersonInVehicle(p);
+		int[] test = {-1, -1};
+		
+		if (!(Arrays.equals(location, test))) {
+			if (location[1] == 0 || (location[1] == numSeatsPerRow[(location[0])] -1) ) {
+				if (p.getAge() <= 2) {
+					return false;
+				}
+				else if (numWindows < (2 * numberOfRows) && location[0] > (numWindows / 2)) {
+					return false;
+				}
+				else{
+					return true;
+				}
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public int getNumWindows() {
+		return numWindows;
+	}
+	
+	public int getNumDoors() {
+		return numDoors;
+	}
+	
+	@Override 
+	public boolean equals(Object obj) {
+		if (obj instanceof Car) {
+			Car a = (Car)obj;
+			if (super.equals(a)) {
+				if (a.getNumDoors() == numDoors && a.getNumWindows() == numWindows) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		String a = String.format("Car: number of doors= %02d | number of windows = %02d | number of rows= %02d | seats per row = ", numDoors, numWindows, numberOfRows );
+		String b = "[";
+		for (int i = 0; i<numberOfRows-1; i++) {
+			b.concat(Integer.toString(numSeatsPerRow[i]) + ", ");
+		}
+		b.concat(Integer.toString(numSeatsPerRow[numberOfRows-1]) + "]" );
+		
+		String c = " | names of people on board= ";
+		Person[][] clone = getPeopleOnBoard();
+		for (int i = 0; i< getPeopleOnBoard().length; i++) {
+			Person[] a = clone[i];
+			String name = a.getName();
+			b.concat((clone[i]).getName());
+		}
+	}
+	
+	@Override
+	public boolean loadPassenger(Person p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int loadPassengers(Person[] peeps) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+}
