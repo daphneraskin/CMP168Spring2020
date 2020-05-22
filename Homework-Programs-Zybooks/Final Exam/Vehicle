@@ -27,21 +27,6 @@ public abstract class Vehicle {
 	}
 	
 	public abstract boolean loadPassenger(Person p);
-	/*for (int i = 0; i<numberOfRows; i++) {
-	for (int j = 0; j<numSeatsPerRow[i]; j++) {
-		
-		if (personsOnBoard[i][j] = null && i = 0) {
-			if (p.getAge() > 4 && p.getHeight() > 35) {
-				personsOnBoard[i][j] = p;
-			}
-		}
-		
-		if (personsOnBoard[i][j] == null && i>0) {
-			personsOnBoard[i][j] = p;
-		}
-		
-	}
-}*/
 	
 	public abstract int loadPassengers(Person[] peeps);
 	
