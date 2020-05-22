@@ -2,10 +2,10 @@
 public class Person {
 
 	
-	protected String name;
-	protected boolean hasDriverLicense;
-	protected int age; // in years
-	protected int height; // in inches
+	private String name;
+	private boolean hasDriverLicense;
+	private int age; // in years
+	private int height; // in inches
 	
 	public Person(String name, boolean hasDriverLicense, int age, int height) {
 		this.name = name;
@@ -54,7 +54,15 @@ public class Person {
 	
 	@Override
 	public String toString() {
-		String a = String.format("Person [name= %10s | age= %02d | height= %02d | has license/no license]", name, age, height, hasDriverLicense);
-		return a;
+		
+		if (hasDriverLicense) {
+			String a = String.format("Person [name= %10s | age= %02d | height= %02d | has license", name, age, height);
+			return a;
+		}
+		else {
+			String a = String.format("Person [name= %10s | age= %02d | height= %02d | no license]", name, age, height);
+			return a;
+		}
+
 	}
 }
