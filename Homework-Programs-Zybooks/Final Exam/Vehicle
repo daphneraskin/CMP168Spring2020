@@ -186,13 +186,15 @@ public abstract class Vehicle {
 	
 	public boolean isPersonInVehicle(Person p) {
 		int[] orig = getLocationOfPersonInVehicle(p);
-		int[] test = {-1, -1};
+		
+		return (orig[0] != -1);
+		/*int[] test = {-1, -1};
 		if (Arrays.equals(orig, test)) {
 			return true;
 		}
 		else {
 			return false;
-		}
+		}*/
 	}
 	
 	public boolean isPersonDriver(Person p) {
