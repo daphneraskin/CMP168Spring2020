@@ -7,36 +7,44 @@ public class RecursionQuestion {
 	
 	public static int binarySearch(Car[] cars, Car c) {
 		
-		System.out.println("Looking for Car" + c.toString());
+		System.out.println("Looking for " + c.toString());
 		
 		Arrays.sort(cars);
-		return findIt(cars, 0, cars.length, c);
+		return findIt(cars, 0, cars.length-1, c);
 		
 	}
 	
 	public static int findIt(Car[] cars, int s, int e, Car c) {
 		
-		if (s<e) {
+		boolean notFound = true;
+		
+		if (s<=e && notFound) {
 			
 			int mid = s + (e-s) /2;
 			System.out.println("s=" + s + ", e=" + e + ", mid=" + mid);
 
 			if (c.compareTo(cars[mid]) == -1) {
 				System.out.println("go left");
-				findIt(cars, s, mid, c);
+				findIt(cars, s, mid-1, c);
 			}
 			else if (c.compareTo(cars[mid]) == 1) {
 				System.out.println("go right");
 				findIt(cars, mid + 1, e, c);
 			}
 			else {
-				System.out.print("FOUND at " + mid);
+				System.out.println("FOUND at " + mid);
+				System.out.println();
+				System.out.println();
 				return mid;
 			}
 		}
-		System.out.print("Not Found");
+		else {
+			System.out.println("Not Found");
+			notFound = false;
+		}
 		return -1;
 	}
+	
 	
 	public static void main(String[] args) {
 
@@ -51,7 +59,12 @@ public class RecursionQuestion {
 		for(int i=0; i<input.length; i++){
 			rowSeats[i] = Integer.parseInt(input[i]);
 		}
+		
+		Car a = new Car(2, 4, rowSeats);
+		
+		binarySearch(cars, a);
 
+		
 
 
    }
