@@ -56,7 +56,7 @@ public class Person {
 	public String toString() {
 		
 		if (hasDriverLicense) {
-			String a = String.format("Person [name= %10s | age= %02d | height= %02d | has license", name, age, height);
+			String a = String.format("Person [name= %10s | age= %02d | height= %02d | has license]", name, age, height);
 			return a;
 		}
 		else {
