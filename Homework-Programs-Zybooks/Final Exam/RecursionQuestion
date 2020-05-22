@@ -1,0 +1,42 @@
+
+public class RecursionQuestion {
+
+	private static int counter = 0;
+	
+	public static String binarySearch(Car[] cars, Car c) {
+		
+		System.out.println("Looking for Car" + c.toString() + "\n");
+		
+		return findIt(cars, 0, cars.length, c);
+		
+
+		
+	}
+	
+	public static String findIt(Car[] cars, int s, int e, Car c) {
+		counter++;
+		String all = "";
+		
+		if (s<e) {
+			
+			int mid = s + (e-s) /2;
+			all.concat("s=" + s + ", e=" + e + ", mid=" + mid +"\n");
+
+			if (c.compareTo(cars[mid]) == -1) {
+				all.concat("go left"+"\n");
+				findIt(cars, s, mid, c);
+			}
+			else if (c.compareTo(cars[mid]) == 1) {
+				all.concat("go right"+"\n");
+				findIt(cars, mid + 1, e, c);
+			}
+			else {
+				all.concat("FOUND at " + mid);
+				return all;
+			}
+		}
+		all.concat("Not Found");
+		return all;
+		
+	}
+}
