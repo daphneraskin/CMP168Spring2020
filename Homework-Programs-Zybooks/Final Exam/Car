@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class Car extends Vehicle{
+public class Car extends Vehicle implements Comparable<Car>, Announcements{
 
 	private int numDoors;
 	private int numWindows;
@@ -87,6 +87,8 @@ public class Car extends Vehicle{
 		return numDoors;
 	}
 	
+	
+	
 	@Override 
 	public boolean equals(Object obj) {
 		if (obj instanceof Car) {
@@ -110,7 +112,8 @@ public class Car extends Vehicle{
 	
 	@Override
 	public String toString() {
-		String a = String.format("Car: number of doors= %02d | number of windows = %02d | number of rows= %02d | seats per row = ", numDoors, numWindows, numberOfRows );
+		String a = String.format("Car: number of doors = %02d | number of windows = %02d | number of rows = %02d | seats per row = ", numDoors, numWindows, numberOfRows );
+		
 		String b = "[";
 		for (int i = 0; i<numberOfRows-1; i++) {
 			b.concat(Integer.toString(numSeatsPerRow[i]) + ", ");
@@ -118,23 +121,86 @@ public class Car extends Vehicle{
 		b.concat(Integer.toString(numSeatsPerRow[numberOfRows-1]) + "]" );
 		
 		String c = " | names of people on board= ";
+		
 		Person[][] clone = getPeopleOnBoard();
-		for (int i = 0; i< getPeopleOnBoard().length; i++) {
-			Person[] a = clone[i];
-			String name = a.getName();
-			b.concat((clone[i]).getName());
+		for (int i = 0; i<numberOfRows; i++) {
+			for (int j = 0; j<numSeatsPerRow[i]; j++) {
+				String tempName = clone[i][j].getName();
+				c.concat(tempName + ", ");
+			}
+		}
+		
+		c = c.substring(0, c.length()-2);
+		System.out.println("a: " + a);
+		System.out.println("b: " + b);
+		System.out.println("c: " + c);
+
+		return a + b + c;
+	}
+	
+	public int compareTo(Car c) {
+		int cTotalSeats = c.getNumberOfAvailableSeats() + c.getNumberOfPeopleOnBoard();
+		int currTotalSeats = getNumberOfAvailableSeats() + getNumberOfPeopleOnBoard();
+		
+		if (currTotalSeats < cTotalSeats) {
+			return -1;
+		}
+		else if (currTotalSeats == cTotalSeats) {
+			return 0;
+		}
+		else {
+			return 1;
 		}
 	}
 	
 	@Override
 	public boolean loadPassenger(Person p) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i<numberOfRows; i++) {
+			for (int j = 0; j<numSeatsPerRow[i]; j++) {
+				
+				if (personsOnBoard[i][j] == null && i == 0) {
+					if (p.getAge() > 4 && p.getHeight() > 35) {
+						personsOnBoard[i][j] = p;
+						return true;
+					}
+				}
+				
+				if (personsOnBoard[i][j] == null && i>0) {
+					personsOnBoard[i][j] = p;
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public int loadPassengers(Person[] peeps) {
-		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		int numPeopleToLoad = peeps.length;
+		
+		while (getNumberOfAvailableSeats() > 0 && numPeopleToLoad > 0) {
+			for (Person p : peeps) {
+				loadPassenger(p);
+				count++;
+				numPeopleToLoad--;
+			}
+		}
+		return count;
+	}
+
+	@Override
+	public String departure() {
+		return "All Aboard\n";
+	}
+
+	@Override
+	public String arrival() {
+		return "Everyone Out\n";
+	}
+
+	@Override
+	public String doNotDisturbTheDriver() {
+		return "No Backseat Driving\n";
 	}
 }
