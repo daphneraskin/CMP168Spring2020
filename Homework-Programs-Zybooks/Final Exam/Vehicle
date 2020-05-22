@@ -10,17 +10,38 @@ public abstract class Vehicle {
 	
 	public Vehicle(int numRows, int numSeatPerRow) {
 		numberOfRows = numRows;
-		for (int i = 0; i<numberOfRows; i++) {
+		maxSeatsPerRow = numSeatPerRow;
+		numSeatsPerRow = new int[numSeatPerRow];
+		for (int i = 0; i< numberOfRows; i++) {
 			numSeatsPerRow[i] = numSeatPerRow;
 		}
+		personsOnBoard = new Person[numberOfRows][numSeatPerRow];
 	}
 	
-	public Vehicle(int[] numSeatsPerRow) {
-		this.numSeatsPerRow = numSeatsPerRow;
+	public Vehicle(int[] numSeatPerRow) {
+		numSeatsPerRow = numSeatPerRow;
+		numberOfRows = numSeatsPerRow.length;
+		maxSeatsPerRow = 0;
+		for (int i = 0; i<numberOfRows; i++) {
+			if (maxSeatsPerRow < numSeatsPerRow[i]) {
+				maxSeatsPerRow = numSeatsPerRow[i];
+			}
+		}
+		
+		personsOnBoard = new Person[numberOfRows][maxSeatsPerRow];
 	}
 	
 	public Vehicle(Person driver, int[] numSeatsPerRow) {
 		this.numSeatsPerRow = numSeatsPerRow;
+		numberOfRows = numSeatsPerRow.length;
+		maxSeatsPerRow = 0;
+		for (int i = 0; i<numberOfRows; i++) {
+			if (maxSeatsPerRow < numSeatsPerRow[i]) {
+				maxSeatsPerRow = numSeatsPerRow[i];
+			}
+		}
+		
+		personsOnBoard = new Person[numberOfRows][maxSeatsPerRow];
 		if (driver.hasDriverLicense()) {
 			personsOnBoard[0][0] = driver;
 		}
@@ -31,7 +52,7 @@ public abstract class Vehicle {
 	public abstract int loadPassengers(Person[] peeps);
 	
 	public void setDriver(Person p) throws InvalidDriverException{
-		if (!(p.hasDriverLicense)) {
+		if (!(p.hasDriverLicense())) {
 			throw new InvalidDriverException();
 		}
 		else {
@@ -40,7 +61,12 @@ public abstract class Vehicle {
 	}
 	
 	public Person getDriver() {
-		return personsOnBoard[0][0];
+		if (personsOnBoard[0][0] instanceof Person) {
+			return personsOnBoard[0][0];
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public boolean hasDriver() {
