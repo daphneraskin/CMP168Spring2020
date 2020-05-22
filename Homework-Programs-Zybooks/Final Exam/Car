@@ -93,21 +93,19 @@ public class Car extends Vehicle implements Comparable<Car>, Announcements{
 	public boolean equals(Object obj) {
 		if (obj instanceof Car) {
 			Car a = (Car)obj;
-			if (super.equals(a)) {
-				if (a.getNumDoors() == numDoors && a.getNumWindows() == numWindows) {
-					return true;
-				}
-				else {
-					return false;
+			boolean checkArray = true;
+			if (numberOfRows == a.numberOfRows && maxSeatsPerRow == a.maxSeatsPerRow) {
+				for (int i = 0; i<numberOfRows; i++) {
+					if (numSeatsPerRow[i] != a.numSeatsPerRow[i]) {
+						checkArray = false;
+					}
 				}
 			}
-			else {
-				return false;
+			if (checkArray && a.numDoors == numDoors && a.numWindows == numWindows) {
+				return true;
 			}
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
 	
 	@Override
@@ -131,9 +129,23 @@ public class Car extends Vehicle implements Comparable<Car>, Announcements{
 				}
 			}
 		}
+		if (c.endsWith(",")) {
+			c = c.substring(0, c.length()-1);
+		}
 		c += "]";
 		String a = String.format("Car: number of doors = %02d | number of windows = %02d | number of rows = %02d | seats per row = %s | names of people on board = %s\n", numDoors, numWindows, numberOfRows, b, c );
 		return a;
+	}
+	
+	public static void main(String[] args) {
+		Car p = new Car(2, 4);
+		Person personA = new Person("Daphne", true, 17, 65);
+		Person personB = new Person("Daphne", true, 17, 65);
+		Person personC = new Person("Daphne", true, 17, 65);
+
+		Person[] people = {personA, personB, personC};
+		p.loadPassengers(people);
+		System.out.println(p.toString());
 	}
 	
 	public int compareTo(Car c) {
