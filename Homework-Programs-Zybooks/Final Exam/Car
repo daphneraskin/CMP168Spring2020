@@ -112,30 +112,28 @@ public class Car extends Vehicle implements Comparable<Car>, Announcements{
 	
 	@Override
 	public String toString() {
-		String a = String.format("Car: number of doors = %02d | number of windows = %02d | number of rows = %02d | seats per row = ", numDoors, numWindows, numberOfRows );
-		
 		String b = "[";
-		for (int i = 0; i<numberOfRows-1; i++) {
-			b.concat(Integer.toString(numSeatsPerRow[i]) + ", ");
-		}
-		b.concat(Integer.toString(numSeatsPerRow[numberOfRows-1]) + "]" );
-		
-		String c = " | names of people on board= ";
-		
-		Person[][] clone = getPeopleOnBoard();
 		for (int i = 0; i<numberOfRows; i++) {
-			for (int j = 0; j<numSeatsPerRow[i]; j++) {
-				String tempName = clone[i][j].getName();
-				c.concat(tempName + ", ");
+			b += Integer.toString(numSeatsPerRow[i]);
+			if (i != numberOfRows -1) {
+				b += ",";
 			}
 		}
+		b += "]";
 		
-		c = c.substring(0, c.length()-2);
-		System.out.println("a: " + a);
-		System.out.println("b: " + b);
-		System.out.println("c: " + c);
-
-		return a + b + c;
+		String c = "[";
+		
+		for (int i = 0; i<numberOfRows; i++) {
+			for (int j = 0; j<maxSeatsPerRow; j++) {
+				if (personsOnBoard[i][j] instanceof Person) {
+					c += personsOnBoard[i][j].getName();
+					c += ",";
+				}
+			}
+		}
+		c += "]";
+		String a = String.format("Car: number of doors = %02d | number of windows = %02d | number of rows = %02d | seats per row = %s | names of people on board = %s\n", numDoors, numWindows, numberOfRows, b, c );
+		return a;
 	}
 	
 	public int compareTo(Car c) {
