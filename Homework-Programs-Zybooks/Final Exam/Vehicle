@@ -84,7 +84,7 @@ public abstract class Vehicle {
 		for (int i = 0; i<numberOfRows; i++) {
 			for (int j = 0; j<numSeatsPerRow[i]; j++) {
 				
-				if (!(personsOnBoard[i][j] instanceof Person)){
+				if (personsOnBoard[i][j]  == null){
 					count++;
 				}
 			}
@@ -96,12 +96,16 @@ public abstract class Vehicle {
 	public int getNumberOfAvailableSeatsInRow(int row) {
 		int count = 0;
 		
-		for (int i= 0; i<numSeatsPerRow[row]; i++) {
-			if (!(personsOnBoard[row][i] instanceof Person)) {
-				count++;
+		if (row <0 || row> numberOfRows-1) {
+			count = -1;
+		}
+		else {
+			for (int i= 0; i<numSeatsPerRow[row]; i++) {
+				if (personsOnBoard[row][i]  == null) {
+					count++;
+				}
 			}
 		}
-		
 		return count;
 	}
 	
@@ -132,22 +136,29 @@ public abstract class Vehicle {
 	}
 	
 	public Person getPersonInSeat(int row, int col) {
-		return personsOnBoard[row][col];
+		if (row >= 0 && row<numberOfRows && col>= 0 && col< numSeatsPerRow[row]) {
+			return personsOnBoard[row][col];
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public int[] getLocationOfPersonInVehicle(Person p) {
 		
+		int[] b = {-1, 1};
+		
 		for (int i = 0; i<numberOfRows; i++) {
 			for (int j = 0; j<numSeatsPerRow[i]; j++) {
 				
-				if (personsOnBoard[i][j].equals(p)) {
-					int[] a = {i, j};
-					return a;
+				if (personsOnBoard[i][j] != null) {
+					if (personsOnBoard[i][j].equals(p)){
+					b[0] = i;
+					b[1] = j;
+					}
 				}
-				
 			}
 		}
-		int[] b = {-1, 1};
 		return b;
 	}
 	
@@ -186,24 +197,15 @@ public abstract class Vehicle {
 	
 	public boolean isPersonInVehicle(Person p) {
 		int[] orig = getLocationOfPersonInVehicle(p);
-		
+
 		return (orig[0] != -1);
-		/*int[] test = {-1, -1};
-		if (Arrays.equals(orig, test)) {
-			return true;
-		}
-		else {
-			return false;
-		}*/
 	}
 	
 	public boolean isPersonDriver(Person p) {
-		if (personsOnBoard[0][0].equals(p)) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		
+		return (personsOnBoard[0][0].equals(p));
+		
 	}
 	
 }
+
