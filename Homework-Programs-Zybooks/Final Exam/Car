@@ -31,7 +31,7 @@ public class Car extends Vehicle implements Comparable<Car>, Announcements{
 	
 	public boolean canOpenDoor(Person p) {
 		int[] location = getLocationOfPersonInVehicle(p);
-		int[] test = {-1, -1};
+		int[] test = {-1, 1};
 		
 		if (!(Arrays.equals(location, test))) {
 			if (location[1] == 0 || (location[1] == numSeatsPerRow[(location[0])] -1) ) {
@@ -59,11 +59,11 @@ public class Car extends Vehicle implements Comparable<Car>, Announcements{
 		int[] test = {-1, -1};
 		
 		if (!(Arrays.equals(location, test))) {
-			if (location[1] == 0 || (location[1] == numSeatsPerRow[(location[0])] -1) ) {
-				if (p.getAge() <= 2) {
+			if (location[1] == 0 || (location[1] == numSeatsPerRow[(location[1]-1)]) ) {
+				if (p.getAge() <=2) {
 					return false;
 				}
-				else if (numWindows < (2 * numberOfRows) && location[0] > (numWindows / 2)) {
+				else if (getNumWindows() < (2 * numberOfRows) && location[0] > (getNumWindows() / 2)) {
 					return false;
 				}
 				else{
@@ -137,17 +137,6 @@ public class Car extends Vehicle implements Comparable<Car>, Announcements{
 		return a;
 	}
 	
-	public static void main(String[] args) {
-		Car p = new Car(2, 4);
-		Person personA = new Person("Daphne", true, 17, 65);
-		Person personB = new Person("Daphne", true, 17, 65);
-		Person personC = new Person("Daphne", true, 17, 65);
-
-		Person[] people = {personA, personB, personC};
-		p.loadPassengers(people);
-		System.out.println(p.toString());
-	}
-	
 	public int compareTo(Car c) {
 		int cTotalSeats = c.getNumberOfAvailableSeats() + c.getNumberOfPeopleOnBoard();
 		int currTotalSeats = getNumberOfAvailableSeats() + getNumberOfPeopleOnBoard();
@@ -188,14 +177,16 @@ public class Car extends Vehicle implements Comparable<Car>, Announcements{
 	public int loadPassengers(Person[] peeps) {
 		int count = 0;
 		int numPeopleToLoad = peeps.length;
-		
-		while (getNumberOfAvailableSeats() > 0 && numPeopleToLoad > 0) {
+		int avail = getNumberOfAvailableSeats();
+		while (avail > 0 && numPeopleToLoad > 0) {
 			for (Person p : peeps) {
 				loadPassenger(p);
 				count++;
+				avail--;
 				numPeopleToLoad--;
 			}
 		}
+		
 		return count;
 	}
 
@@ -213,4 +204,21 @@ public class Car extends Vehicle implements Comparable<Car>, Announcements{
 	public String doNotDisturbTheDriver() {
 		return "No Backseat Driving\n";
 	}
+	
+	public static void main(String[] args) {
+		Car p = new Car(2, 4);
+		Person personA = new Person("Daphne", true, 19, 65);
+		Person personB = new Person("Daphne", true, 18, 65);
+		Person personC = new Person("Daphne", true, 17, 65);
+
+		p.personsOnBoard[0][0] = personC;
+
+		System.out.println("Is personA driver? " + p.isPersonDriver(personA));
+		System.out.println("Is personA driver? " + p.isPersonDriver(personB));
+		System.out.println("Is personA driver? " + p.isPersonDriver(personC));
+
+	}
+	
+	
+	
 }
