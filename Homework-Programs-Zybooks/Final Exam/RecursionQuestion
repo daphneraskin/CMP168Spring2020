@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class RecursionQuestion {
 	
+	static boolean notFound = true;
 	
 	public static int binarySearch(Car[] cars, Car c) {
 		
@@ -15,9 +16,7 @@ public class RecursionQuestion {
 	}
 	
 	public static int findIt(Car[] cars, int s, int e, Car c) {
-		
-		boolean notFound = true;
-		
+				
 		int mid = s + (e-s) /2;
 		
 		if (s<=e && notFound) {
@@ -34,6 +33,7 @@ public class RecursionQuestion {
 			}
 			else {
 				System.out.println("FOUND at " + mid);
+				notFound = false;
 				System.out.println();
 				System.out.println();
 				return mid;
